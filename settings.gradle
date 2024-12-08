@@ -1,0 +1,5 @@
+rootProject.name = 'postman4j-interceptor'
+
+include 'postman4j'
+include 'hc5-interceptor'
+

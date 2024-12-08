@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.jora.postman4j'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':postman4j')
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    implementation 'org.projectlombok:lombok:1.18.28'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2'
+
+//    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -15,11 +15,23 @@ dependencies {
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.2'
 
 //    implementation 'ch.qos.logback:logback-classic:1.4.11'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
 }
 
-test {
-    useJUnitPlatform()
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+
+    test {
+        useJUnitPlatform()
+    }
 }

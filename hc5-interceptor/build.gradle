@@ -16,11 +16,4 @@ dependencies {
 
 //    implementation 'ch.qos.logback:logback-classic:1.4.11'
     implementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
-
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
 }

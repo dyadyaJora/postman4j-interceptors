@@ -1,0 +1,817 @@
+{
+  "info": {
+    "name": "Mock Collection",
+    "description": "This is a mock collection",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "identifier": "beta-1"
+    },
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Folder 1",
+      "item": [
+        {
+          "name": "Request 1",
+          "request": {
+            "url": "https://mockapi.com/endpoint1",
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "mockUser",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "mockPass",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "{\"key\":\"value1\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint1",
+                "method": "GET",
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "404 Not Found",
+              "code": 404,
+              "body": "{\"error\":\"Not Found\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint1",
+                "method": "GET",
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Request 2",
+          "request": {
+            "url": "https://mockapi.com/endpoint2",
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "mockApiKey",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "param1",
+                  "value": "value1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "201 Created",
+              "code": 201,
+              "body": "{\"key\":\"value2\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint2",
+                "method": "POST",
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "mockApiKey",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "param1",
+                      "value": "value1"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "400 Bad Request",
+              "code": 400,
+              "body": "{\"error\":\"Bad Request\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint2",
+                "method": "POST",
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "mockApiKey",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "param1",
+                      "value": "value1"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Folder 2",
+      "item": [
+        {
+          "name": "Request 3",
+          "request": {
+            "url": "https://mockapi.com/endpoint3",
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "mockBearerToken",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<key>value3</key>"
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "<key>value3</key>",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint3",
+                "method": "PUT",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "mockBearerToken",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<key>value3</key>"
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "500 Internal Server Error",
+              "code": 500,
+              "body": "<error>Internal Server Error</error>",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint3",
+                "method": "PUT",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "mockBearerToken",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/xml"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<key>value3</key>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Request 4",
+          "request": {
+            "url": "https://mockapi.com/endpoint4",
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessToken",
+                  "value": "mockOAuth2Token",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "key=value4"
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "204 No Content",
+              "code": 204,
+              "body": "",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint4",
+                "method": "DELETE",
+                "auth": {
+                  "type": "oauth2",
+                  "oauth2": [
+                    {
+                      "key": "accessToken",
+                      "value": "mockOAuth2Token",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "text/plain"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "key=value4"
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "403 Forbidden",
+              "code": 403,
+              "body": "Forbidden",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint4",
+                "method": "DELETE",
+                "auth": {
+                  "type": "oauth2",
+                  "oauth2": [
+                    {
+                      "key": "accessToken",
+                      "value": "mockOAuth2Token",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "text/plain"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "key=value4"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Folder 3",
+      "item": [
+        {
+          "name": "Request 5",
+          "request": {
+            "url": "https://mockapi.com/endpoint5",
+            "method": "PATCH",
+            "auth": {
+              "type": "digest",
+              "digest": [
+                {
+                  "key": "username",
+                  "value": "mockUser",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "mockPass",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"key\":\"value5\"}"
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "{\"key\":\"value5\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint5",
+                "method": "PATCH",
+                "auth": {
+                  "type": "digest",
+                  "digest": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"key\":\"value5\"}"
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "401 Unauthorized",
+              "code": 401,
+              "body": "{\"error\":\"Unauthorized\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint5",
+                "method": "PATCH",
+                "auth": {
+                  "type": "digest",
+                  "digest": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"key\":\"value5\"}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Request 6",
+          "request": {
+            "url": "https://mockapi.com/endpoint6",
+            "method": "OPTIONS",
+            "auth": {
+              "type": "ntlm",
+              "ntlm": [
+                {
+                  "key": "username",
+                  "value": "mockUser",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "mockPass",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "{\"key\":\"value6\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint6",
+                "method": "OPTIONS",
+                "auth": {
+                  "type": "ntlm",
+                  "ntlm": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "405 Method Not Allowed",
+              "code": 405,
+              "body": "{\"error\":\"Method Not Allowed\"}",
+              "originalRequest": {
+                "url": "https://mockapi.com/endpoint6",
+                "method": "OPTIONS",
+                "auth": {
+                  "type": "ntlm",
+                  "ntlm": [
+                    {
+                      "key": "username",
+                      "value": "mockUser",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "mockPass",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Folder 4",
+      "item": [
+        {
+          "name": "Multipart Request 1",
+          "request": {
+            "url": "https://mockapi.com/upload1",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "path/to/file1.txt"
+                },
+                {
+                  "key": "description",
+                  "type": "text",
+                  "value": "This is a description for file1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "Multipart response body part 1",
+              "originalRequest": {
+                "url": "https://mockapi.com/upload1",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "path/to/file1.txt"
+                    },
+                    {
+                      "key": "description",
+                      "type": "text",
+                      "value": "This is a description for file1"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "500 Internal Server Error",
+              "code": 500,
+              "body": "Multipart response body part 2",
+              "originalRequest": {
+                "url": "https://mockapi.com/upload1",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "path/to/file1.txt"
+                    },
+                    {
+                      "key": "description",
+                      "type": "text",
+                      "value": "This is a description for file1"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Multipart Request 2",
+          "request": {
+            "url": "https://mockapi.com/upload2",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "path/to/file2.txt"
+                },
+                {
+                  "key": "description",
+                  "type": "text",
+                  "value": "This is a description for file2"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Response 1",
+              "status": "200 OK",
+              "code": 200,
+              "body": "Multipart response body part 1",
+              "originalRequest": {
+                "url": "https://mockapi.com/upload2",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "path/to/file2.txt"
+                    },
+                    {
+                      "key": "description",
+                      "type": "text",
+                      "value": "This is a description for file2"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Response 2",
+              "status": "500 Internal Server Error",
+              "code": 500,
+              "body": "Multipart response body part 2",
+              "originalRequest": {
+                "url": "https://mockapi.com/upload2",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "path/to/file2.txt"
+                    },
+                    {
+                      "key": "description",
+                      "type": "text",
+                      "value": "This is a description for file2"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "console.log('Pre-request script');"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://mockapi.com",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "mockApiKey",
+        "type": "string"
+      }
+    ]
+  },
+  "protocolProfileBehavior": {}
+}

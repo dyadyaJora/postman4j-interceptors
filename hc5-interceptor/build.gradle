@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'io.freefair.aspectj.post-compile-weaving' version '8.11'
 }
 
 group = 'dev.jora.postman4j'
@@ -10,10 +10,12 @@ repositories {
 
 dependencies {
     implementation project(':postman4j')
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
-    implementation 'org.projectlombok:lombok:1.18.28'
-    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: aspectJVersion
+
 
 //    implementation 'ch.qos.logback:logback-classic:1.4.11'
-    implementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
+    testImplementation group: 'org.wiremock', name: 'wiremock', version: wiremockVersion
 }

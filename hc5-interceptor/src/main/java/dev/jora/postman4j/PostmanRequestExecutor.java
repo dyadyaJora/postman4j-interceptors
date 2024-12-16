@@ -14,9 +14,11 @@ import dev.jora.postman4j.models.Response;
 import dev.jora.postman4j.models.URL;
 import dev.jora.postman4j.utils.ConverterUtils;
 import dev.jora.postman4j.utils.PostmanSettings;
+import dev.jora.postman4j.utils.RequestResponseMode;
 import dev.jora.postman4j.utils.SchemaVersion;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
@@ -51,6 +53,8 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
     private static final ThreadLocal<String> currentFolderPathHolder = new ThreadLocal<>();
 
     private static final ThreadLocal<String> currentRequestNameHolder = new ThreadLocal<>();
+    private static final ThreadLocal<String> currentResponseNameHolder = new ThreadLocal<>();
+
     @Getter
     private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
 
@@ -77,6 +81,14 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
 
     public static void removeRequestName() {
         currentRequestNameHolder.remove();
+    }
+
+    public static void setResponseName(String prefix) {
+        currentResponseNameHolder.set(prefix);
+    }
+
+    public static void removeResponseName() {
+        currentResponseNameHolder.remove();
     }
 
     public static void setFolderPath(String prefix) {
@@ -122,20 +134,37 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
             throw new RuntimeException(e);
         }
 
+        Response postmanResponse;
+
+        boolean saveToCollection = this.settings.shouldSaveAll() && this.settings.getCustomStatusFilter() == null;
         try {
+            if (settings.getSelectedHeaders().stream().anyMatch(headerName -> request.getHeaders(headerName) != null)) {
+                saveToCollection = true;
+            }
             ClassicHttpResponse response = super.execute(request, conn, context);
 
-            processResponse(response, singleItem, singleItem.getRequest());
+            if (settings.getCustomStatusFilter() != null) {
+                saveToCollection = settings.getCustomStatusFilter().test(response.getCode());
+            }
 
+            if (settings.getRequestResponseMode() == RequestResponseMode.REQUEST_AND_RESPONSE) {
+                postmanResponse = processResponse(response, singleItem, singleItem.getRequest());
+                String postmanResponseName = currentResponseNameHolder.get() == null ? response.getCode() + " " + response.getReasonPhrase() : currentResponseNameHolder.get();
+                postmanResponse.setName(postmanResponseName);
+            }
             return response;
         } catch (IOException | HttpException | RuntimeException e) {
-            log.error("Request failed", e);
+            if (settings.getSelectedExceptions().stream().anyMatch(className -> StringUtils.containsIgnoreCase(e.getClass().getName(), className))) {
+                saveToCollection = true;
+            }
             throw e;
         } finally {
-            if (folder != null) {
-                folder.getItem().add(singleItem);
-            } else {
-                postmanCollection.getItem().add(singleItem);
+            if (saveToCollection) {
+                if (folder != null) {
+                    folder.getItem().add(singleItem);
+                } else {
+                    postmanCollection.getItem().add(singleItem);
+                }
             }
             log.debug("Request executed");
             log.debug(ConverterUtils.toJsonString(postmanCollection));
@@ -143,13 +172,16 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
     }
 
     private String generateRequestName(ClassicHttpRequest request) {
+        if (currentRequestNameHolder.get() != null) {
+            return currentRequestNameHolder.get();
+        }
         switch (this.settings.getItemNamingStrategy()) {
             case COUNTER:
                 return "Request " + this.counter.incrementAndGet();
             case UUID:
                 return java.util.UUID.randomUUID().toString();
             case FROM_HEADER:
-                if (this.settings.getHeaderWithRequestName() != null) {
+                if (this.settings.getHeaderName() != null) {
                     return Stream.of(request.getHeaders("Name"))
                             .filter(Objects::nonNull)
                             .findFirst().map(Header::getValue).orElse("Unnamed request");
@@ -157,7 +189,6 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
             default:
                 return "Unnamed request";
         }
-
     }
 
     public static Body fillRequestBody(ClassicHttpRequest request) throws IOException, ParseException {
@@ -212,7 +243,7 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         return singleItem;
     }
 
-    private void processResponse(ClassicHttpResponse response, Items singleItem, RequestUnion requestUnion) throws IOException, ParseException {
+    private Response processResponse(ClassicHttpResponse response, Items singleItem, RequestUnion requestUnion) throws IOException, ParseException {
         List<Response> responses = new ArrayList<>();
         singleItem.setResponse(responses);
         Response postmanResponse = new Response();
@@ -235,6 +266,7 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
             responseHeadersList.add(headerElement);
         }
         responses.add(postmanResponse);
+        return postmanResponse;
     }
 
     static String trimAndRemoveSlashes(String input) {

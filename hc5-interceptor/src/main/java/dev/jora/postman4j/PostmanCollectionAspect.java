@@ -4,6 +4,7 @@ import dev.jora.postman4j.annotations.AddPostmanFolder;
 import dev.jora.postman4j.annotations.UsePostmanCollection;
 import dev.jora.postman4j.annotations.UsePostmanFolderPath;
 import dev.jora.postman4j.annotations.UsePostmanRequest;
+import dev.jora.postman4j.annotations.UsePostmanResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,7 +31,6 @@ public class PostmanCollectionAspect {
             PostmanRequestExecutor.removeCollectionName();
         }
     }
-
 
     @Pointcut("@annotation(usePostmanRequestAnnotation)")
     public void usePostmanRequestPointcut(UsePostmanRequest usePostmanRequestAnnotation) {
@@ -80,5 +80,20 @@ public class PostmanCollectionAspect {
         }
     }
 
+    @Pointcut("@annotation(usePostmanResponseAnnotation)")
+    public void usePostmanResponsePointcut(UsePostmanResponse usePostmanResponseAnnotation) {
+        // Pointcut for methods annotated with @UsePostmanResponse
+    }
+
+    @Around("usePostmanResponsePointcut(usePostmanResponseAnnotation)")
+    public Object interceptAnnotatedResponseMethods(ProceedingJoinPoint joinPoint, UsePostmanResponse usePostmanResponseAnnotation) throws Throwable {
+        String name = usePostmanResponseAnnotation.value();
+        PostmanRequestExecutor.setResponseName(name);
+        try {
+            return joinPoint.proceed();
+        } finally {
+            PostmanRequestExecutor.removeResponseName();
+        }
+    }
 
 }

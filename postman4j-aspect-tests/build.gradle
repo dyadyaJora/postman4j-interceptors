@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.freefair.aspectj.post-compile-weaving' version '8.11'
 }
 
 repositories {
@@ -7,6 +8,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation project(':postman4j')
-    testImplementation project(':hc5-interceptor')
+    implementation project(':postman4j')
+    aspect project(':hc5-interceptor')
+
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version
+    testImplementation group: 'org.wiremock', name: 'wiremock', version: wiremockVersion
 }

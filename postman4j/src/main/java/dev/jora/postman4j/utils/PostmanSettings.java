@@ -30,6 +30,12 @@ public class PostmanSettings {
     private final RequestResponseMode requestResponseMode = RequestResponseMode.REQUEST_AND_RESPONSE;
 
     @lombok.Builder.Default
+    private final boolean enableRequestBody = true;
+
+    @lombok.Builder.Default
+    private final boolean enableResponseBody = true;
+
+    @lombok.Builder.Default
     private final ItemNamingStrategy itemNamingStrategy = ItemNamingStrategy.COUNTER;
 
     @lombok.Builder.Default

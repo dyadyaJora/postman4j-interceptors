@@ -18,10 +18,12 @@ import dev.jora.postman4j.utils.RequestResponseMode;
 import dev.jora.postman4j.utils.SchemaVersion;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.impl.io.HttpRequestExecutor;
@@ -125,7 +127,6 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
 
         String collectionName = currentCollectionNameHolder.get() != null ? currentCollectionNameHolder.get() : this.settings.getBaseCollectionName();
         PostmanCollection postmanCollection = data.computeIfAbsent(collectionName, name -> createPostmanCollection(name, this.settings.getSchemaVersion()));
-
         Items folder = getOrCreateFolder(postmanCollection);
         Items singleItem;
         try {
@@ -191,11 +192,12 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         }
     }
 
-    public static Body fillRequestBody(ClassicHttpRequest request) throws IOException, ParseException {
+    private Body fillRequestBody(ClassicHttpRequest request) throws IOException, ParseException {
         Body body = new Body();
         body.setDisabled(true);
-        if (request.getEntity() != null) {
+        if (this.settings.isEnableRequestBody() && request.getEntity() != null) {
             body.setDisabled(false);
+            // @TODO: add support for all types of bodies by header
             body.setMode(Mode.RAW);
             body.setRaw(EntityUtils.toString(request.getEntity()));
         }
@@ -250,9 +252,15 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         postmanResponse.setCode((long) response.getCode());
         postmanResponse.setStatus(response.getReasonPhrase());
         postmanResponse.setOriginalRequest(requestUnion);
-        if (response.getEntity() != null) {
-            postmanResponse.setBody(EntityUtils.toString(response.getEntity()));
+        if (this.settings.isEnableResponseBody() && response.getEntity() != null) {
+            HttpEntity originalEntity = response.getEntity();
+            if (originalEntity != null) {
+                byte[] bodyContent = IOUtils.toByteArray(originalEntity.getContent());
+                postmanResponse.setBody(IOUtils.toString(bodyContent, "UTF-8"));
+                response.setEntity(new CachedHttpEntity(bodyContent));
+            }
         }
+
 
         Headers responseHeaders = new Headers();
         List<dev.jora.postman4j.models.HeaderElement> responseHeadersList = new ArrayList<>();
@@ -265,6 +273,7 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
             headerElement.headerValue.setValue(header.getValue());
             responseHeadersList.add(headerElement);
         }
+        postmanResponse.setHeader(responseHeaders);
         responses.add(postmanResponse);
         return postmanResponse;
     }

@@ -1,4 +1,5 @@
 group = 'dev.jora.postman4j'
+description = 'Postman collection models for postman4j.'
 
 repositories {
     mavenCentral()

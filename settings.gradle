@@ -1,6 +1,7 @@
 rootProject.name = 'postman4j-interceptor'
 
-include 'postman4j'
+include(':postman4j-models')
+project(':postman4j-models').projectDir = file("./postman4j")
 include 'hc5-interceptor'
 include 'postman4j-aspect-tests'
 

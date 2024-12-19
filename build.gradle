@@ -1,5 +1,10 @@
 plugins {
     id 'java'
+    id 'com.netflix.nebula.contacts' version '7.0.1'
+    id 'com.netflix.nebula.javadoc-jar' version '20.2.0'
+    id 'com.netflix.nebula.source-jar' version '20.2.0'
+    id 'com.netflix.nebula.maven-publish' version '20.2.0'
+    id 'com.netflix.nebula.maven-developer' version '20.2.0'
 }
 
 group = 'dev.jora.postman4j'
@@ -11,6 +16,33 @@ repositories {
 
 subprojects {
     apply plugin: 'java'
+
+    if (project.name == 'postman4j-models' || project.name == 'hc5-interceptor') {
+        apply plugin: 'com.netflix.nebula.contacts'
+        apply plugin: 'com.netflix.nebula.javadoc-jar'
+        apply plugin: 'com.netflix.nebula.source-jar'
+        apply plugin: 'com.netflix.nebula.maven-publish'
+        apply plugin: 'com.netflix.nebula.maven-developer'
+
+
+        publishing {
+            publications {
+                nebula(MavenPublication) {
+                    pom {
+                        url.set(findProperty('projectRepoUrl'))
+
+                        licenses {
+                            license {
+                                name.set("The MIT License")
+                                url.set("https://opensource.org/licenses/MIT")
+                                distribution.set("repo")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -28,5 +60,13 @@ subprojects {
 
     test {
         useJUnitPlatform()
+    }
+}
+
+
+contacts {
+    'idyadyajora@gmail.com' {
+        moniker 'George Kindra'
+        github 'dyadyaJora'
     }
 }

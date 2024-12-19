@@ -4,13 +4,15 @@ plugins {
 }
 
 group = 'dev.jora.postman4j'
+description = 'Interceptor for Apache HTTP Client 5 with interactive converter to postman collections functionality.'
+
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    api project(':postman4j')
+    api project(':postman4j-models')
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version
     implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion

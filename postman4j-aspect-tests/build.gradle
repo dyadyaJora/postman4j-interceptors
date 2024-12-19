@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':postman4j')
+    implementation project(':postman4j-models')
     aspect project(':hc5-interceptor')
 
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version

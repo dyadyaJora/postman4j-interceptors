@@ -160,15 +160,18 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
             }
             throw e;
         } finally {
+            log.debug("Request executed.");
             if (saveToCollection) {
+                log.debug("Collection saved.");
                 if (folder != null) {
                     folder.getItem().add(singleItem);
                 } else {
                     postmanCollection.getItem().add(singleItem);
                 }
+                 if (settings.isLogWhenChanged()) {
+                     log.info(ConverterUtils.toJsonString(postmanCollection));
+                 }
             }
-            log.debug("Request executed");
-            log.debug(ConverterUtils.toJsonString(postmanCollection));
         }
     }
 

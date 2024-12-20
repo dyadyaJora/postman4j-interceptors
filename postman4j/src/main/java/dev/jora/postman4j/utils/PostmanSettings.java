@@ -36,6 +36,9 @@ public class PostmanSettings {
     private final boolean enableResponseBody = true;
 
     @lombok.Builder.Default
+    private final boolean logWhenChanged = true;
+
+    @lombok.Builder.Default
     private final ItemNamingStrategy itemNamingStrategy = ItemNamingStrategy.COUNTER;
 
     @lombok.Builder.Default

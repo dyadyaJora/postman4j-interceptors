@@ -46,3 +46,6 @@ postman4j/src/main/resources/collection.json
 build/*
 postman_collection.json
 *_converted.json
+*.key
+*.pgp
+collection.json

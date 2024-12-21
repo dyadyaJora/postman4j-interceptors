@@ -1,10 +1,12 @@
 plugins {
     id 'java'
-    id 'com.netflix.nebula.contacts' version '7.0.1'
-    id 'com.netflix.nebula.javadoc-jar' version '20.2.0'
-    id 'com.netflix.nebula.source-jar' version '20.2.0'
-    id 'com.netflix.nebula.maven-publish' version '20.2.0'
-    id 'com.netflix.nebula.maven-developer' version '20.2.0'
+    id 'application'
+    id 'com.netflix.nebula.javadoc-jar' version "$nebulaVersion"
+    id 'com.netflix.nebula.source-jar' version "$nebulaVersion"
+    id 'com.netflix.nebula.maven-publish' version "$nebulaVersion"
+    id 'com.netflix.nebula.maven-developer' version "$nebulaVersion"
+    id 'com.netflix.nebula.contacts' version "$nebulaContactsVersion"
+    id 'org.jreleaser' version "$jreleaserVersion"
 }
 
 group = 'dev.jora.postman4j'
@@ -23,7 +25,12 @@ subprojects {
         apply plugin: 'com.netflix.nebula.source-jar'
         apply plugin: 'com.netflix.nebula.maven-publish'
         apply plugin: 'com.netflix.nebula.maven-developer'
+        apply plugin: 'org.jreleaser'
+        apply plugin: 'application'
 
+        ext {
+            stagingDirName = 'staging-deploy'
+        }
 
         publishing {
             publications {
@@ -38,7 +45,20 @@ subprojects {
                                 distribution.set("repo")
                             }
                         }
+
+
+                        scm {
+                            connection = 'scm:git:git://github.com/dyadyaJora/postman4j-interceptors.git'
+                            developerConnection = 'scm:git:ssh://github.com:dyadyaJora/postman4j-interceptors.git'
+                            url = 'https://github.com/dyadyaJora/postman4j-interceptors'
+                        }
                     }
+                }
+            }
+
+            repositories {
+                maven {
+                    url = layout.buildDirectory.dir(stagingDirName)
                 }
             }
         }
@@ -68,5 +88,37 @@ contacts {
     'idyadyajora@gmail.com' {
         moniker 'George Kindra'
         github 'dyadyaJora'
+    }
+}
+
+
+jreleaser {
+    gitRootSearch = true
+    project {
+        copyright = 'jora.dev'
+        description = 'Postman collection models for postman4j.'
+    }
+    signing {
+        active = 'ALWAYS'
+        armored = true
+        mode = 'FILE'
+        publicKey = 'public.key'
+        secretKey = 'private.key'
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository("postman4j/build/staging-deploy")
+                }
+            }
+        }
+    }
+    release {
+        github {
+            enabled = false
+        }
     }
 }

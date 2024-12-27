@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.jora.postman4j'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.springframework', name: 'spring-web', version: '6.2.1'
+    implementation group: 'org.springframework', name: 'spring-context', version: '6.2.1'
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: aspectJVersion
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

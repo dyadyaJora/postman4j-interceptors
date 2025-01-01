@@ -4,7 +4,6 @@ import dev.jora.postman4j.models.Body;
 import dev.jora.postman4j.models.HeaderElement;
 import dev.jora.postman4j.models.HeaderUnion;
 import dev.jora.postman4j.models.Headers;
-import dev.jora.postman4j.models.Information;
 import dev.jora.postman4j.models.Items;
 import dev.jora.postman4j.models.Mode;
 import dev.jora.postman4j.models.PostmanCollection;
@@ -15,7 +14,7 @@ import dev.jora.postman4j.models.URL;
 import dev.jora.postman4j.utils.ConverterUtils;
 import dev.jora.postman4j.utils.PostmanSettings;
 import dev.jora.postman4j.utils.RequestResponseMode;
-import dev.jora.postman4j.utils.SchemaVersion;
+import dev.jora.postman4j.utils.PostmanCollectionFactory;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -36,11 +35,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
+
+import static dev.jora.postman4j.utils.PostmanCollectionFactory.createPostmanCollection;
 
 /**
  * @author dyadyaJora on 11.12.2024
@@ -207,15 +207,6 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         return body;
     }
 
-    private PostmanCollection createPostmanCollection(String name, SchemaVersion schemaVersion) {
-        PostmanCollection postmanCollection = new PostmanCollection();
-        Information information = new Information();
-        information.setName(name);
-        information.setSchema(schemaVersion.getSchemaUrl());
-        postmanCollection.setInfo(information);
-        postmanCollection.setItem(new ArrayList<>());
-        return postmanCollection;
-    }
 
     private Items createSingleItem(ClassicHttpRequest request) throws URISyntaxException, IOException, ParseException {
         Items singleItem = new Items();
@@ -281,20 +272,6 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         return postmanResponse;
     }
 
-    static String trimAndRemoveSlashes(String input) {
-        if (input == null) {
-            return null;
-        }
-        String trimmed = input.trim();
-        if (trimmed.startsWith("/")) {
-            trimmed = trimmed.substring(1);
-        }
-        if (trimmed.endsWith("/")) {
-            trimmed = trimmed.substring(0, trimmed.length() - 1);
-        }
-        return trimmed;
-    }
-
     private Items getOrCreateFolder(PostmanCollection postmanCollection) {
         List<String> folderNames;
         if (currentFolderPathHolder.get() != null) {
@@ -302,34 +279,6 @@ public class PostmanRequestExecutor extends HttpRequestExecutor {
         } else {
             folderNames = currentFoldersHolder.get();
         }
-        return getOrCreateFolder(postmanCollection, folderNames);
-    }
-
-    private Items getOrCreateFolder(PostmanCollection postmanCollection, List<String> folderNames) {
-        if (folderNames == null) {
-            return null;
-        }
-
-        Items folder = null;
-        if (postmanCollection.getItem() == null) {
-            postmanCollection.setItem(new ArrayList<>());
-        }
-        Optional<List<Items>> folders = Optional.ofNullable(postmanCollection.getItem());
-        for (String folderName : folderNames) {
-            Optional<List<Items>> finalFolders = folders;
-            folder = folders.flatMap(f -> f.stream()
-                            .filter(item -> item.getName().equals(folderName))
-                            .findFirst())
-                    .orElseGet(() -> {
-                        Items newFolder = new Items();
-                        newFolder.setName(folderName);
-                        newFolder.setId(UUID.randomUUID().toString());
-                        newFolder.setItem(new ArrayList<>());
-                        finalFolders.ifPresent(f -> f.add(newFolder));
-                        return newFolder;
-                    });
-            folders = Optional.ofNullable(folder.getItem());
-        }
-        return folder;
+        return PostmanCollectionFactory.getOrCreateFolder(postmanCollection, folderNames);
     }
 }

@@ -10,14 +10,23 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}
+
 dependencies {
     api project(':postman4j-models')
 
     implementation "org.springframework:spring-aop:$springVersion"
     implementation "org.springframework:spring-context:$springVersion"
     implementation "org.springframework:spring-web:$springVersion"
+    implementation "org.springframework.boot:spring-boot-actuator:$springBootVersion"
+
     implementation "jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion"
-    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    implementation group: 'commons-io', name: 'commons-io', version: commonsIoVersion
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
 
     implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: aspectJVersion

@@ -62,6 +62,9 @@ public class PostmanSettings {
     @lombok.Builder.Default
     private final FoldingStrategy foldingStrategy = FoldingStrategy.NO_FOLDERS;
 
+    @lombok.Builder.Default
+    private final boolean disableOnActuator = true;
+
     public boolean shouldSaveAll() {
         return selectedStatuses.isEmpty() && selectedHeaders.isEmpty() && selectedExceptions.isEmpty();
     }

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author dyadyaJora on 15.12.2024
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface UsePostmanFolderPath {
     String value();
 }

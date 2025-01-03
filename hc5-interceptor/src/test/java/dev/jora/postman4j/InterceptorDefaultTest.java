@@ -93,7 +93,7 @@ public class InterceptorDefaultTest {
                 if (requestBody != null) {
                     assertEquals(requestBody, EntityUtils.toString(request.getEntity()));
                 }
-//                assertEquals(expectedResponseBody, EntityUtils.toString(response.getEntity()));
+                assertEquals(expectedResponseBody, EntityUtils.toString(response.getEntity()));
 
                 PostmanCollection collection = interceptor.getData().get(PostmanSettings.DEFAULT_COLLECTION_NAME);
 

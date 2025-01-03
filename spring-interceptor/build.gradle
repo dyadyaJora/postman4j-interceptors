@@ -21,6 +21,7 @@ dependencies {
     implementation "org.springframework:spring-context:$springVersion"
     implementation "org.springframework:spring-web:$springVersion"
     implementation "org.springframework.boot:spring-boot-actuator:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
 
     implementation "jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion"
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion

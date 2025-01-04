@@ -1,6 +1,7 @@
 # Postman4j Interceptors
 
 [![Maven Central Version](https://img.shields.io/maven-central/v/dev.jora.postman4j/postman4j-models)](https://central.sonatype.com/artifact/dev.jora.postman4j/postman4j-models)
+[![Java CI with Gradle](https://github.com/dyadyaJora/postman4j-interceptors/actions/workflows/gradle.yml/badge.svg)](https://github.com/dyadyaJora/postman4j-interceptors/actions/workflows/gradle.yml)
 
 
 ## Instllation

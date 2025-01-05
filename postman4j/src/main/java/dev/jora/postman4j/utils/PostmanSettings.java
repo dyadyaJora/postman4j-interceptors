@@ -17,51 +17,101 @@ public class PostmanSettings {
     public static final String DEFAULT_COLLECTION_NAME = "Generated Collection";
     public static final String DEFAULT_COLLECTION_DESCRIPTION = "Generated Collection Description";
 
+    /**
+     * The default name of the collection
+     * Used when the collection name is not provided by annotation
+     */
     @lombok.Builder.Default
     private final String baseCollectionName = DEFAULT_COLLECTION_NAME;
 
+    /**
+     * The default description of the collection.
+     * Used when the collection description is not provided by annotation
+     */
     @lombok.Builder.Default
     private final String baseCollectionDescription = DEFAULT_COLLECTION_DESCRIPTION;
 
+    /**
+     * The schema version of the collection
+     */
     @lombok.Builder.Default
     private final SchemaVersion schemaVersion = SchemaVersion.V2_1_0;
 
+    /**
+     * The mode of the request-response logging: request, response or both
+     */
     @lombok.Builder.Default
     private final RequestResponseMode requestResponseMode = RequestResponseMode.REQUEST_AND_RESPONSE;
 
+    /**
+     * Whether to log the request body
+     */
     @lombok.Builder.Default
     private final boolean enableRequestBody = true;
 
+    /**
+     * Whether to log the response body
+     */
     @lombok.Builder.Default
     private final boolean enableResponseBody = true;
 
+    /**
+     * Enable logging of current collection to stdout when in changed
+     */
     @lombok.Builder.Default
     private final boolean logWhenChanged = true;
 
+    /**
+     * The naming strategy for the items
+     */
     @lombok.Builder.Default
     private final ItemNamingStrategy itemNamingStrategy = ItemNamingStrategy.COUNTER;
 
+    /**
+     * The output location for the collection
+     */
     @lombok.Builder.Default
     private final OutputLocation outputLocation = OutputLocation.CONSOLE;
 
+    /**
+     * The selected statuses to save when filtering responses
+     */
     @lombok.Builder.Default
     private final List<Integer> selectedStatuses = new ArrayList<>();
 
+    /**
+     * The selected headers to save when filtering responses
+     */
     @lombok.Builder.Default
     private final List<String> selectedHeaders = new ArrayList<>();
 
+    /**
+     * The selected exceptions to save when filtering responses
+     */
     @lombok.Builder.Default
     private final List<String> selectedExceptions = new ArrayList<>();
 
+    /**
+     * The header name to use for the request name
+     */
     @lombok.Builder.Default
     private final String headerName = null;
 
+    /**
+     * The custom status filter function to use when filtering responses, receives the status code as an argument
+     */
     @lombok.Builder.Default
     private final Predicate<Integer> customStatusFilter = null;
 
+    /**
+     * The folding strategy to use when folding items
+     */
     @lombok.Builder.Default
     private final FoldingStrategy foldingStrategy = FoldingStrategy.NO_FOLDERS;
 
+    /**
+     * Whether to disable the interceptor when actuator endpoints are called
+     */
     @lombok.Builder.Default
     private final boolean disableOnActuator = true;
 

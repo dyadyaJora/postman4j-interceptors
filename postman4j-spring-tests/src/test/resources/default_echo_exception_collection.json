@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "echo-error",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "list echo-error",
+      "request": {
+        "body": {
+          "disabled": true
+        },
+        "header": [
+          {
+            "key": "accept",
+            "value": "text/plain, application/json, application/*+json, */*"
+          },
+          {
+            "key": "user-agent",
+            "value": "Java/17.0.9"
+          },
+          {
+            "key": "host",
+            "value": "localhost:${port}"
+          },
+          {
+            "key": "connection",
+            "value": "keep-alive"
+          }
+        ],
+        "method": "GET",
+        "url": "http://localhost:${port}/echo-error"
+      },
+      "response": [
+        {
+          "name": "jakarta.servlet.ServletException"
+        }
+      ]
+    }
+  ]
+}

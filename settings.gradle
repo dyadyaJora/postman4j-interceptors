@@ -5,4 +5,5 @@ project(':postman4j-models').projectDir = file("./postman4j")
 include 'hc5-interceptor'
 include 'postman4j-aspect-tests'
 include 'spring-interceptor'
+include 'postman4j-spring-tests'
 

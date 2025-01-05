@@ -62,13 +62,19 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
         ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
 
+        Exception thrownException = null;
+
         try {
             filterChain.doFilter(wrappedRequest, wrappedResponse);
-        } finally {
+        } catch (Exception e) {
+            thrownException = e;
+            throw e;
+        }
+        finally {
             log.info("Request processed: {}", request.getAttributeNames());
             try {
                 if (!(this.getSettings().isDisableOnActuator() && request.getRequestURI().contains("/actuator"))) {
-                    this.process(wrappedRequest, () -> wrappedResponse);
+                    this.process(wrappedRequest, () -> wrappedResponse, thrownException);
                 }
             } catch (Exception e) {
                 log.error("Could not to save current http call in form of postman collection", e);
@@ -77,6 +83,11 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
             wrappedResponse.copyBodyToResponse();
         }
 
+    }
+
+    public void clean() {
+        this.data.clear();
+        this.counter.set(0);
     }
 
     @Override
@@ -126,7 +137,12 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
 
     @Override
     public String extractRequestUrl(ContentCachingRequestWrapper request) {
-        return String.valueOf(request.getRequestURL());
+        StringBuilder url = new StringBuilder(request.getRequestURL().toString());
+        String queryString = request.getQueryString();
+        if (queryString != null) {
+            url.append('?').append(queryString);
+        }
+        return url.toString();
     }
 
     @Override

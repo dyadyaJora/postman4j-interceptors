@@ -91,6 +91,10 @@ public interface BasePostmanInterceptor<Req, Resp> {
     }
 
     default Resp process(Req request, Callable<Resp> callResponse) throws Exception {
+        return process(request, callResponse, null);
+    }
+
+    default Resp process(Req request, Callable<Resp> callResponse, Exception throwedException) throws Exception {
         String collectionName = extractCollectionName(request);
         PostmanCollection postmanCollection = this.getData().computeIfAbsent(collectionName, name -> createPostmanCollection(name, this.getSettings().getSchemaVersion()));
         Items folder = PostmanCollectionFactory.getOrCreateFolder(postmanCollection, this.extractFolderNames(request));
@@ -114,9 +118,18 @@ public interface BasePostmanInterceptor<Req, Resp> {
             }
 
             if (this.getSettings().getRequestResponseMode() == RequestResponseMode.REQUEST_AND_RESPONSE) {
-                postmanResponse = processResponse(response, singleItem, singleItem.getRequest());
-                String postmanResponseName = this.extractResponseName(request, response);
-                postmanResponse.setName(postmanResponseName);
+                if (throwedException == null) {
+                    postmanResponse = processResponse(response, singleItem, singleItem.getRequest());
+                    String postmanResponseName = this.extractResponseName(request, response);
+                    postmanResponse.setName(postmanResponseName);
+                } else {
+                    List<Response> responses = new ArrayList<>();
+                    postmanResponse = new Response();
+                    postmanResponse.setName(throwedException.getClass().getName());
+                    responses.add(postmanResponse);
+                    singleItem.setResponse(responses);
+                    throw throwedException;
+                }
             }
             return response;
         } catch (Exception e) {

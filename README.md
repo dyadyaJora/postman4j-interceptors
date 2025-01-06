@@ -103,6 +103,11 @@ Example of instrumenting custom controller in your java code
 
 ![img.png](img-spring.png)
 
+Example of actuator endpoint output
+
+![image](https://github.com/user-attachments/assets/76ccbf87-accc-43e7-bb93-906346383a20)
+
+
 
 ## Settings
 

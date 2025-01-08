@@ -19,13 +19,13 @@ configurations {
 dependencies {
     api project(":spring-interceptor")
 
-    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion"
+    implementation Spring.boot.web
+    implementation Spring.boot.actuator
+    implementation libs.spring.boot.starter.aop
+    implementation libs.spring.boot.autoconfigure
+    annotationProcessor Spring.boot.configurationProcessor
 
-    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-    testImplementation "org.apache.commons:commons-text:$commonTextVersion"
+    testImplementation Spring.boot.test
+    testImplementation libs.commons.text
 
 }

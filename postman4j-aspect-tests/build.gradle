@@ -11,6 +11,6 @@ dependencies {
     implementation project(':postman4j-models')
     aspect project(':hc5-interceptor')
 
-    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version
-    testImplementation group: 'org.wiremock', name: 'wiremock', version: wiremockVersion
+    implementation libs.httpclient5
+    testImplementation libs.wiremock
 }

@@ -17,20 +17,20 @@ tasks.withType(JavaCompile) {
 dependencies {
     api project(':postman4j-models')
 
-    implementation "org.springframework:spring-aop:$springVersion"
-    implementation "org.springframework:spring-context:$springVersion"
-    implementation "org.springframework:spring-web:$springVersion"
-    implementation "org.springframework.boot:spring-boot-actuator:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
+    implementation libs.spring.aop
+    implementation libs.spring.context
+    implementation libs.spring.web
+    implementation libs.spring.boot.actuator
+    implementation libs.spring.boot.autoconfigure
 
-    implementation "jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion"
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-    implementation group: 'commons-io', name: 'commons-io', version: commonsIoVersion
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
-    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation libs.jakarta.servlet.api
+    implementation libs.jackson.core
+    implementation libs.commons.io
+    implementation libs.commons.lang3
+    implementation libs.logback.classic
 
-    implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion
-    implementation group: 'org.aspectj', name: 'aspectjweaver', version: aspectJVersion
+    implementation libs.aspectjrt
+    implementation libs.aspectjweaver
 }
 
 

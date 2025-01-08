@@ -7,12 +7,14 @@ plugins {
     id 'com.netflix.nebula.maven-developer' version "$nebulaVersion"
     id 'com.netflix.nebula.contacts' version "$nebulaContactsVersion"
     id 'org.jreleaser' version "$jreleaserVersion"
+    id "com.github.ben-manes.versions" version "$dependencyUpdatesVersion"
 }
 
 group = 'dev.jora.postman4j'
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 
@@ -71,11 +73,11 @@ subprojects {
         mavenCentral()
     }
     dependencies {
-        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        implementation "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor libs.lombok
+        implementation libs.lombok
 
-        testImplementation platform("org.junit:junit-bom:$junitVersion")
-        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testImplementation platform(Testing.junit.bom)
+        testImplementation Testing.junit.jupiter
     }
 
     test {

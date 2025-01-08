@@ -13,13 +13,13 @@ repositories {
 
 dependencies {
     api project(':postman4j-models')
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: hc5version
-    implementation group: 'org.aspectj', name: 'aspectjrt', version: aspectJVersion
-    implementation group: 'org.aspectj', name: 'aspectjweaver', version: aspectJVersion
-    implementation group: 'commons-io', name: 'commons-io', version: commonsIoVersion
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
-    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+    implementation libs.jackson.core
+    implementation libs.httpclient5
+    implementation libs.aspectjrt
+    implementation libs.aspectjweaver
+    implementation libs.commons.io
+    implementation libs.commons.lang3
+    implementation libs.logback.classic
 
-    testImplementation group: 'org.wiremock', name: 'wiremock', version: wiremockVersion
+    testImplementation libs.wiremock
 }

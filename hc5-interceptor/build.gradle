@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'io.freefair.aspectj.post-compile-weaving' version '8.11'
+    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
 }
 
 group = 'dev.jora.postman4j'

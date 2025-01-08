@@ -1,13 +1,13 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.netflix.nebula.javadoc-jar' version "$nebulaVersion"
-    id 'com.netflix.nebula.source-jar' version "$nebulaVersion"
-    id 'com.netflix.nebula.maven-publish' version "$nebulaVersion"
-    id 'com.netflix.nebula.maven-developer' version "$nebulaVersion"
-    id 'com.netflix.nebula.contacts' version "$nebulaContactsVersion"
-    id 'org.jreleaser' version "$jreleaserVersion"
-    id "com.github.ben-manes.versions" version "$dependencyUpdatesVersion"
+    alias(libs.plugins.com.netflix.nebula.javadoc.jar)
+    alias(libs.plugins.com.netflix.nebula.source.jar)
+    alias(libs.plugins.com.netflix.nebula.maven.publish)
+    alias(libs.plugins.com.netflix.nebula.maven.developer)
+    alias(libs.plugins.com.netflix.nebula.contacts)
+    alias(libs.plugins.org.jreleaser)
+    alias(libs.plugins.com.github.ben.manes.versions)
 }
 
 group = 'dev.jora.postman4j'

@@ -122,10 +122,10 @@ Example of actuator endpoint output
 | logWhenChanged           | `boolean`                                        | Enable logging of current collection to stdout when changed (default: `true`)           |
 | itemNamingStrategy       | `COUNTER`, `UUID`, `FROM_HEADER`                 | The naming strategy for the items (default: `COUNTER`)                                  |
 | outputLocation           | `CONSOLE`, `FILE`, `BOTH`                        | **(not supported yet)** The output location for the collection (`CONSOLE`)              |
-| selectedStatuses         | `List<Integer>`                                  | The selected statuses to save when filtering responses (empty list)                     |
-| selectedHeaders          | `List<String>`                                   | The selected headers to save when filtering responses (empty list)                      |
-| selectedExceptions       | `List<String>`                                   | The selected exceptions to save when filtering responses (empty list)                   |
-| headerName               | `String`                                         | The header name to use for the request name (null)                                      |
-| customStatusFilter       | `Predicate<Integer>`                             | The custom status filter function to use when filtering responses (null)                |
-| foldingStrategy          | `NO_FOLDERS`, `ONE_FOLDER_PER_REQUEST`, `CUSTOM` | **(not supported yet)** The folding strategy to use when folding items (NO_FOLDERS)     |
-| disableOnActuator        | `boolean`                                          | Whether to disable the interceptor when actuator endpoints are called (default: `true`)            |
+| selectedStatuses         | `List<Integer>`                                  | The selected statuses to save when filtering responses (default: `empty list`)          |
+| selectedHeaders          | `List<String>`                                   | The selected headers to save when filtering responses (default: `empty list`)           |
+| selectedExceptions       | `List<String>`                                   | The selected exceptions to save when filtering responses (default: `empty list`)        |
+| headerName               | `String`                                         | The header name to use for the request name (default: `null`)                           |
+| customStatusFilter       | `Predicate<Integer>`                             | The custom status filter function to use when filtering responses (default: `null`)     |
+| foldingStrategy          | `NO_FOLDERS`, `ONE_FOLDER_PER_REQUEST`, `CUSTOM` | **(not supported yet)** The folding strategy to use when folding items (`NO_FOLDERS`)   |
+| disableOnActuator        | `boolean`                                        | Whether to disable the interceptor when actuator endpoints are called (default: `true`)            |

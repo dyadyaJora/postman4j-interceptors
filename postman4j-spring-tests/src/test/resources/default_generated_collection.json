@@ -10,17 +10,26 @@
         "disabled" : true
       },
       "header" : [ {
-        "key" : "accept",
-        "value" : "text/plain, application/json, application/*+json, */*"
+        "key" : "connection",
+        "value" : "Upgrade, HTTP2-Settings"
       }, {
-        "key" : "user-agent",
-        "value" : "Java/17.0.9"
+        "key" : "content-length",
+        "value" : "0"
       }, {
         "key" : "host",
         "value" : "localhost:${port}"
       }, {
-        "key" : "connection",
-        "value" : "keep-alive"
+        "key" : "http2-settings",
+        "value" : "AAEAAEAAAAIAAAABAAMAAABkAAQBAAAAAAUAAEAA"
+      }, {
+        "key" : "upgrade",
+        "value" : "h2c"
+      }, {
+        "key" : "user-agent",
+        "value" : "Java-http-client/17.0.9"
+      }, {
+        "key" : "accept",
+        "value" : "text/plain, application/json, application/*+json, */*"
       } ],
       "method" : "GET",
       "url" : "http://localhost:${port}/default"
@@ -35,17 +44,26 @@
           "disabled" : true
         },
         "header" : [ {
-          "key" : "accept",
-          "value" : "text/plain, application/json, application/*+json, */*"
+          "key" : "connection",
+          "value" : "Upgrade, HTTP2-Settings"
         }, {
-          "key" : "user-agent",
-          "value" : "Java/17.0.9"
+          "key" : "content-length",
+          "value" : "0"
         }, {
           "key" : "host",
           "value" : "localhost:${port}"
         }, {
-          "key" : "connection",
-          "value" : "keep-alive"
+          "key" : "http2-settings",
+          "value" : "AAEAAEAAAAIAAAABAAMAAABkAAQBAAAAAAUAAEAA"
+        }, {
+          "key" : "upgrade",
+          "value" : "h2c"
+        }, {
+          "key" : "user-agent",
+          "value" : "Java-http-client/17.0.9"
+        }, {
+          "key" : "accept",
+          "value" : "text/plain, application/json, application/*+json, */*"
         } ],
         "method" : "GET",
         "url" : "http://localhost:${port}/default"

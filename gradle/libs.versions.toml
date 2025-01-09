@@ -2,13 +2,13 @@
 
 [plugins]
 
-com-netflix-nebula-javadoc-jar = { id = "com.netflix.nebula.javadoc-jar", version = "20.2.0" }
+com-netflix-nebula-javadoc-jar = { id = "com.netflix.nebula.javadoc-jar", version.ref = "nebula" }
 
-com-netflix-nebula-source-jar = { id = "com.netflix.nebula.source-jar", version = "20.2.0" }
+com-netflix-nebula-source-jar = { id = "com.netflix.nebula.source-jar", version.ref = "nebula" }
 
-com-netflix-nebula-maven-publish = { id = "com.netflix.nebula.maven-publish", version = "20.2.0" }
+com-netflix-nebula-maven-publish = { id = "com.netflix.nebula.maven-publish", version.ref = "nebula" }
 
-com-netflix-nebula-maven-developer = { id = "com.netflix.nebula.maven-developer", version = "20.2.0" }
+com-netflix-nebula-maven-developer = { id = "com.netflix.nebula.maven-developer", version.ref = "nebula" }
 
 com-netflix-nebula-contacts = { id = "com.netflix.nebula.contacts", version = "7.0.1" }
 
@@ -24,21 +24,23 @@ io-spring-dependency-management = { id = "io.spring.dependency-management", vers
 
 [versions]
 
-spring-boot = "3.2.1"
+spring-boot = "3.4.1"
 
-spring = "6.1.2"
+spring = "6.2.1"
 
 aspectj = "1.9.22.1"
 
 jackson = "2.18.2"
 
+nebula = "20.2.0"
+
 [libraries]
 
-lombok = "org.projectlombok:lombok:1.18.28"
+lombok = "org.projectlombok:lombok:1.18.36"
 
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
 
-httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.2"
+httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.3.1"
 
 aspectjrt = { module = "org.aspectj:aspectjrt", version.ref = "aspectj" }
 
@@ -46,9 +48,9 @@ aspectjweaver = { module = "org.aspectj:aspectjweaver", version.ref = "aspectj" 
 
 commons-io = "commons-io:commons-io:2.18.0"
 
-commons-lang3 = "org.apache.commons:commons-lang3:3.16.0"
+commons-lang3 = "org.apache.commons:commons-lang3:3.17.0"
 
-logback-classic = "ch.qos.logback:logback-classic:1.4.11"
+logback-classic = "ch.qos.logback:logback-classic:1.4.14"
 
 wiremock = "org.wiremock:wiremock:3.9.2"
 
@@ -60,13 +62,13 @@ joda-time = "joda-time:joda-time:2.13.0"
 
 slf4j-api = "org.slf4j:slf4j-api:2.0.16"
 
-jsonassert = "org.skyscreamer:jsonassert:1.5.0"
+jsonassert = "org.skyscreamer:jsonassert:1.5.3"
 
 spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "spring-boot" }
 
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }
 
-commons-text = "org.apache.commons:commons-text:1.10.0"
+commons-text = "org.apache.commons:commons-text:1.13.0"
 
 spring-aop = { module = "org.springframework:spring-aop", version.ref = "spring" }
 

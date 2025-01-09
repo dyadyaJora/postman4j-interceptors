@@ -6,13 +6,13 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
-    implementation group: 'joda-time', name: 'joda-time', version: jodaTimeVersion
-    implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
+    implementation libs.jackson.databind
+    implementation libs.jackson.core
+    implementation libs.jackson.annotations
+    implementation libs.joda.time
+    implementation libs.slf4j.api
+    implementation libs.commons.lang3
 
-    testImplementation group: 'commons-io', name: 'commons-io', version: commonsIoVersion
-    testImplementation group: 'org.skyscreamer', name: 'jsonassert', version: jsonAssertVersion
+    testImplementation libs.commons.io
+    testImplementation libs.jsonassert
 }

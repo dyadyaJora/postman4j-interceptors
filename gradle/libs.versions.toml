@@ -50,7 +50,7 @@ commons-io = "commons-io:commons-io:2.18.0"
 
 commons-lang3 = "org.apache.commons:commons-lang3:3.17.0"
 
-logback-classic = "ch.qos.logback:logback-classic:1.4.14"
+logback-classic = "ch.qos.logback:logback-classic:1.5.16"
 
 wiremock = "org.wiremock:wiremock:3.9.2"
 

@@ -94,6 +94,7 @@ contacts {
 }
 
 def releasedSubProject = findProperty('releasedSubProject') ?: '.'
+def releaseMaxRetries = findProperty('releaseMaxRetries') ?: 60
 
 jreleaser {
     gitRootSearch = true
@@ -114,7 +115,9 @@ jreleaser {
                 sonatype {
                     active = 'ALWAYS'
                     url = 'https://central.sonatype.com/api/v1/publisher'
+                    maxRetries = releaseMaxRetries
                     stagingRepository("${releasedSubProject}/build/staging-deploy")
+
                 }
             }
         }

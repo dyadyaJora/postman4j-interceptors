@@ -38,9 +38,9 @@ jobs:
         run: |
           echo "$PUBLIC_CONTENT" > public.key
           echo "$PRIVATE_CONTENT" > private.key
-      
+
       - name: Create release
-        run: ./gradlew jreleaserDeploy -PreleasedSubProject=${{ github.event.inputs.subproject }} || exit 0
+        run: ./gradlew jreleaserDeploy -PreleasedSubProject=${{ github.event.inputs.subproject }} -PreleaseMaxRetries=3 || exit 0
         env:
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
           JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME }}

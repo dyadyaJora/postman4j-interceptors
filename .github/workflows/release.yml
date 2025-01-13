@@ -31,6 +31,14 @@ jobs:
       - name: Publish staging
         run: ./gradlew :${{ github.event.inputs.subproject }}:publish
 
+      - name: Prepare keys
+        env:
+          PUBLIC_CONTENT: ${{ secrets.PUBLIC_KEY }}
+          PRIVATE_CONTENT: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          echo "$PUBLIC_CONTENT" > public.key
+          echo "$PRIVATE_CONTENT" > private.key
+      
       - name: Create release
         run: ./gradlew jreleaserDeploy -PreleasedSubProject=${{ github.event.inputs.subproject }} || exit 0
         env:

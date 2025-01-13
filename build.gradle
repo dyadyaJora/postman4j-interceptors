@@ -94,7 +94,7 @@ contacts {
 }
 
 def releasedSubProject = findProperty('releasedSubProject') ?: '.'
-def releaseMaxRetries = findProperty('releaseMaxRetries') ?: 60
+def releaseMaxRetries = Integer.valueOf(findProperty('releaseMaxRetries') ? findProperty('releaseMaxRetries').toString() : '60')
 
 jreleaser {
     gitRootSearch = true

@@ -26,7 +26,7 @@ io-spring-dependency-management = { id = "io.spring.dependency-management", vers
 
 spring-boot = "3.4.1"
 
-spring = "6.2.1"
+spring = "6.2.2"
 
 aspectj = "1.9.22.1"
 

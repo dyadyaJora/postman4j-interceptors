@@ -14,7 +14,7 @@ com-netflix-nebula-contacts = { id = "com.netflix.nebula.contacts", version = "7
 
 org-jreleaser = { id = "org.jreleaser", version = "1.16.0" }
 
-com-github-ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+com-github-ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 
 io-freefair-aspectj-post-compile-weaving = { id = "io.freefair.aspectj.post-compile-weaving", version = "8.11" }
 

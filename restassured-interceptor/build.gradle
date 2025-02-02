@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'dev.jora.postman4j'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    api project(':postman4j-models')
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '4.5.1'
+    testImplementation group: 'io.rest-assured', name: 'json-path', version: '4.5.1'
+
+    testImplementation project(':hc5-interceptor')
+    testImplementation project(path: ':hc5-interceptor', configuration: 'tests')
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation libs.wiremock
+}
+
+test {
+    useJUnitPlatform()
+}

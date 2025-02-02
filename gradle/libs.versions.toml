@@ -34,6 +34,8 @@ jackson = "2.18.2"
 
 nebula = "20.2.0"
 
+restassured = "4.5.1"
+
 [libraries]
 
 lombok = "org.projectlombok:lombok:1.18.36"

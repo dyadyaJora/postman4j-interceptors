@@ -11,6 +11,19 @@ repositories {
     mavenCentral()
 }
 
+task jarTests(type: Jar, dependsOn: testClasses) {
+    archiveClassifier.set('tests')
+    from sourceSets.test.output
+}
+configurations {
+    tests {
+        extendsFrom testRuntimeClasspath
+    }
+}
+artifacts {
+    tests jarTests
+}
+
 dependencies {
     api project(':postman4j-models')
     implementation libs.jackson.core

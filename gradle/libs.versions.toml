@@ -34,7 +34,7 @@ jackson = "2.18.2"
 
 nebula = "20.2.0"
 
-restassured = "4.5.1"
+restAssured = "4.5.1"
 
 [libraries]
 
@@ -81,3 +81,7 @@ spring-web = { module = "org.springframework:spring-web", version.ref = "spring"
 spring-boot-actuator = { module = "org.springframework.boot:spring-boot-actuator", version.ref = "spring-boot" }
 
 jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
+
+restAssured = { group = "io.rest-assured", name = "rest-assured", version.ref = "restAssured" }
+
+jsonPath = { group = "io.rest-assured", name = "json-path", version.ref = "restAssured" }

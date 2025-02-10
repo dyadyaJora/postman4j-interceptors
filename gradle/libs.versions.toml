@@ -58,7 +58,7 @@ jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", ver
 
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
 
-joda-time = "joda-time:joda-time:2.13.0"
+joda-time = "joda-time:joda-time:2.13.1"
 
 slf4j-api = "org.slf4j:slf4j-api:2.0.16"
 

@@ -12,13 +12,11 @@ repositories {
 
 dependencies {
     api project(':postman4j-models')
-    implementation libs.restassured
+    implementation libs.restAssured
 
     testImplementation libs.jsonPath
     testImplementation project(':hc5-interceptor')
     testImplementation project(path: ':hc5-interceptor', configuration: 'tests')
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation libs.wiremock
 }
 

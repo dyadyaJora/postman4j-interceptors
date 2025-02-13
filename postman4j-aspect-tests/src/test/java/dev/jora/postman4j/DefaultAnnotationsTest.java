@@ -69,4 +69,23 @@ public class DefaultAnnotationsTest {
             assertEquals("Server Error", response.getStatus());
         }
     }
+
+    @Test
+    public void testAnnotationBasedDefaultSettingsWithRestAssuredInterceptor() {
+        TestRestAssuredAspects testRestAssuredAspects = new TestRestAssuredAspects(WIREMOCK_HOST, wireMockServer.port());
+        testRestAssuredAspects.executeRequest("/server-error");
+        PostmanCollection collection = testRestAssuredAspects.getFilter().getData().get("My Test Collection");
+
+        assertEquals("My Test Collection", collection.getInfo().getName());
+        assertEquals(1, collection.getItem().size());
+        assertEquals("Folder #1", collection.getItem().get(0) .getName());
+
+        Items item = collection.getItem().get(0).getItem().get(0);
+        assertEquals("My Request", item.getName());
+
+        Response response = collection.getItem().get(0).getItem().get(0).getResponse().get(0);
+        assertEquals(500, response.getCode());
+        assertEquals("My Response", response.getName());
+//        assertEquals("Server Error", response.getStatus());
+    }
 }

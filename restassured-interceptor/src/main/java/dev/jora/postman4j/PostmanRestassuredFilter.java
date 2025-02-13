@@ -159,5 +159,55 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     public String extractResponseName(FilterableRequestSpecification request, Response response) {
         return currentResponseNameHolder.get() == null ? response.getStatusLine() : currentResponseNameHolder.get();
     }
+
+    public static void setCollectionName(String prefix) {
+        currentCollectionNameHolder.set(prefix);
+    }
+
+    public static void removeCollectionName() {
+        currentCollectionNameHolder.remove();
+    }
+
+    public static void setRequestName(String prefix) {
+        currentRequestNameHolder.set(prefix);
+    }
+
+    public static void removeRequestName() {
+        currentRequestNameHolder.remove();
+    }
+
+    public static void setResponseName(String prefix) {
+        currentResponseNameHolder.set(prefix);
+    }
+
+    public static void removeResponseName() {
+        currentResponseNameHolder.remove();
+    }
+
+    public static void setFolderPath(String prefix) {
+        currentFolderPathHolder.set(prefix);
+    }
+
+    public static void removeFolderPath() {
+        currentFolderPathHolder.remove();
+    }
+
+    public static void addFolder(String folder) {
+        List<String> folders = currentFoldersHolder.get();
+        if (folders == null) {
+            folders = new ArrayList<>();
+            currentFoldersHolder.set(folders);
+        }
+        folders.add(folder);
+    }
+
+    public static void removeFolder() {
+        List<String> folders = currentFoldersHolder.get();
+        if (folders != null) {
+            if (!folders.isEmpty()) {
+                folders.remove(folders.size() - 1);
+            }
+        }
+    }
 }
 

@@ -10,7 +10,9 @@ repositories {
 dependencies {
     implementation project(':postman4j-models')
     aspect project(':hc5-interceptor')
+    aspect project(':restassured-interceptor')
 
     implementation libs.httpclient5
+    implementation libs.restAssured
     testImplementation libs.wiremock
 }

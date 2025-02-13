@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
 }
 
 group = 'dev.jora.postman4j'
@@ -13,6 +14,8 @@ repositories {
 dependencies {
     api project(':postman4j-models')
     implementation libs.restAssured
+    implementation libs.aspectjrt
+    implementation libs.aspectjweaver
 
     testImplementation libs.jsonPath
     testImplementation project(':hc5-interceptor')

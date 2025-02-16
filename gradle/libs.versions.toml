@@ -85,3 +85,5 @@ jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
 restAssured = { group = "io.rest-assured", name = "rest-assured", version.ref = "restAssured" }
 
 jsonPath = { group = "io.rest-assured", name = "json-path", version.ref = "restAssured" }
+
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version = "5.11.0-M2" }

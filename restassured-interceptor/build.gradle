@@ -14,8 +14,12 @@ repositories {
 dependencies {
     api project(':postman4j-models')
     implementation libs.restAssured
+    implementation libs.jackson.databind
+    implementation libs.jackson.core
+    implementation libs.jackson.annotations
     implementation libs.aspectjrt
     implementation libs.aspectjweaver
+    implementation libs.junit.jupiter.engine
 
     testImplementation libs.jsonPath
     testImplementation project(':hc5-interceptor')

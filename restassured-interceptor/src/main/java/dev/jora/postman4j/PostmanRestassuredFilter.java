@@ -30,6 +30,7 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
 
     private final AtomicInteger counter = new AtomicInteger(0);
 
+    // @TODO: reimplement with stack
     private static final ThreadLocal<String> currentCollectionNameHolder = new ThreadLocal<>();
     private static final ThreadLocal<List<String>> currentFoldersHolder = new ThreadLocal<>();
     private static final ThreadLocal<String> currentFolderPathHolder = new ThreadLocal<>();
@@ -158,6 +159,11 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     @Override
     public String extractResponseName(FilterableRequestSpecification request, Response response) {
         return currentResponseNameHolder.get() == null ? response.getStatusLine() : currentResponseNameHolder.get();
+    }
+
+
+    public static String getCollectionName() {
+        return currentCollectionNameHolder.get();
     }
 
     public static void setCollectionName(String prefix) {

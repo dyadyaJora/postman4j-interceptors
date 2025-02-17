@@ -20,6 +20,8 @@ dependencies {
     implementation libs.aspectjrt
     implementation libs.aspectjweaver
     implementation libs.junit.jupiter.engine
+    implementation libs.testng
+
 
     testImplementation libs.jsonPath
     testImplementation project(':hc5-interceptor')

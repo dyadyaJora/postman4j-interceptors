@@ -32,7 +32,7 @@ aspectj = "1.9.22.1"
 
 jackson = "2.18.2"
 
-nebula = "21.1.0"
+nebula = "21.1.1"
 
 restAssured = "4.5.1"
 

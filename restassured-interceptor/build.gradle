@@ -1,0 +1,34 @@
+plugins {
+    id 'java-library'
+    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
+}
+
+group = 'dev.jora.postman4j'
+description = 'Filter for restassured to log all requests in format of postman collections.'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    api project(':postman4j-models')
+    implementation libs.restAssured
+    implementation libs.jackson.databind
+    implementation libs.jackson.core
+    implementation libs.jackson.annotations
+    implementation libs.aspectjrt
+    implementation libs.aspectjweaver
+    implementation libs.junit.jupiter.engine
+    implementation libs.testng
+
+
+    testImplementation libs.jsonPath
+    testImplementation project(':hc5-interceptor')
+    testImplementation project(path: ':hc5-interceptor', configuration: 'tests')
+    testImplementation libs.wiremock
+}
+
+test {
+    useJUnitPlatform()
+}

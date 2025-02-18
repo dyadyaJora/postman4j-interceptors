@@ -21,7 +21,7 @@ repositories {
 subprojects {
     apply plugin: 'java'
 
-    if (project.name == 'postman4j-models' || project.name == 'hc5-interceptor'|| project.name == 'spring-interceptor') {
+    if (project.name == 'postman4j-models' || project.name == 'hc5-interceptor'|| project.name == 'spring-interceptor' || project.name == 'restassured-interceptor') {
         apply plugin: 'com.netflix.nebula.contacts'
         apply plugin: 'com.netflix.nebula.javadoc-jar'
         apply plugin: 'com.netflix.nebula.source-jar'

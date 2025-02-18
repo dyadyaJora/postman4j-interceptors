@@ -15,4 +15,13 @@ dependencies {
     implementation libs.httpclient5
     implementation libs.restAssured
     testImplementation libs.wiremock
+    testImplementation libs.testng
 }
+
+task testNG(type: Test) {
+    useTestNG()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+check.dependsOn testNG

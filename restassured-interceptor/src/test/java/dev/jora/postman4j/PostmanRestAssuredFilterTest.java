@@ -58,4 +58,31 @@ public class PostmanRestAssuredFilterTest {
         assertEquals(1, collection.getItem().size());
 
     }
+
+    @Test
+    public void testFormDataRequest() throws JsonProcessingException {
+        PostmanRestassuredFilter filter = new PostmanRestassuredFilter();
+        RestAssured.requestSpecification = new RequestSpecBuilder()
+                .setBaseUri("http://" + WIREMOCK_HOST)
+                .setPort(WIREMOCK_PORT)
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
+                .addFilter(filter).build();
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.URLENC)
+                .formParam("key1", "value1")
+                .formParam("key2", "value2")
+                .post("/success-post");
+
+        assertEquals(200, response.getStatusCode());
+        JsonPath jsonPath = response.getBody().jsonPath();
+        assertNotNull(jsonPath);
+
+        PostmanCollection collection = filter.getData().get(PostmanSettings.DEFAULT_COLLECTION_NAME);
+        assertNotNull(collection);
+        System.out.println(ConverterUtils.toJsonString(collection));
+        assertEquals(PostmanSettings.DEFAULT_COLLECTION_NAME, collection.getInfo().getName());
+        assertEquals(1, collection.getItem().size());
+    }
 }

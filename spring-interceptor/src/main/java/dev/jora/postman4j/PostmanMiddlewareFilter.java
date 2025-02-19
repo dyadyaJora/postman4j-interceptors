@@ -1,5 +1,6 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.Header;
 import dev.jora.postman4j.models.HeaderElement;
 import dev.jora.postman4j.models.PostmanCollection;
@@ -160,8 +161,18 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
     }
 
     @Override
+    public boolean hasRequestFormData(ContentCachingRequestWrapper request) {
+        return false;
+    }
+
+    @Override
     public String extractRequestBody(ContentCachingRequestWrapper request) {
         return request.getContentAsString();
+    }
+
+    @Override
+    public List<FormParameter> extractRequestFormData(ContentCachingRequestWrapper request) {
+        return List.of();
     }
 
     @Override

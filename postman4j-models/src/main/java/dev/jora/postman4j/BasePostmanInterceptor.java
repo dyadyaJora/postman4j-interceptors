@@ -1,6 +1,7 @@
 package dev.jora.postman4j;
 
 import dev.jora.postman4j.models.Body;
+import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.HeaderUnion;
 import dev.jora.postman4j.models.Headers;
 import dev.jora.postman4j.models.Items;
@@ -55,8 +56,10 @@ public interface BasePostmanInterceptor<Req, Resp> {
     String extractRequestUrl(Req request);
 
     boolean hasRequestBody(Req request);
+    boolean hasRequestFormData(Req request);
 
     String extractRequestBody(Req request);
+    List<FormParameter> extractRequestFormData(Req request);
 
     List<dev.jora.postman4j.models.Header> extractRequestHeaders(Req request);
 
@@ -180,11 +183,18 @@ public interface BasePostmanInterceptor<Req, Resp> {
     private Body fillRequestBody(Req request) {
         Body body = new Body();
         body.setDisabled(true);
-        if (this.getSettings().isEnableRequestBody() && hasRequestBody(request)) {
-            body.setDisabled(false);
-            // @TODO: add support for all types of bodies by header
-            body.setMode(Mode.RAW);
-            body.setRaw(this.extractRequestBody(request));
+        if (this.getSettings().isEnableRequestBody()) {
+            if (hasRequestBody(request)) {
+                body.setDisabled(false);
+                // @TODO: add support for all types of bodies by header
+                body.setMode(Mode.RAW);
+                body.setRaw(this.extractRequestBody(request));
+            }
+            if (hasRequestFormData(request)) {
+                body.setDisabled(false);
+                body.setMode(Mode.FORMDATA);
+                body.setFormdata(this.extractRequestFormData(request));
+            }
         }
         return body;
     }

@@ -1,5 +1,6 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.Header;
 import dev.jora.postman4j.models.HeaderElement;
 import dev.jora.postman4j.models.PostmanCollection;
@@ -14,6 +15,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,8 +107,25 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     }
 
     @Override
+    public boolean hasRequestFormData(FilterableRequestSpecification request) {
+        return request.getFormParams() != null && !request.getFormParams().isEmpty();
+    }
+
+    @Override
     public String extractRequestBody(FilterableRequestSpecification request) {
         return new Prettifier().getPrettifiedBodyIfPossible(request);
+    }
+
+    @Override
+    public List<FormParameter> extractRequestFormData(FilterableRequestSpecification request) {
+        List<FormParameter> formParameters = new ArrayList<>();
+        for (Map.Entry<String, String> formParam : request.getFormParams().entrySet()) {
+            FormParameter postmanFormParameter = new FormParameter();
+            postmanFormParameter.setKey(formParam.getKey());
+            postmanFormParameter.setValue(formParam.getValue());
+            formParameters.add(postmanFormParameter);
+        }
+        return formParameters;
     }
 
     @Override

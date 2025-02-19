@@ -1,5 +1,6 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.HeaderElement;
 import dev.jora.postman4j.models.PostmanCollection;
 import dev.jora.postman4j.utils.PostmanSettings;
@@ -162,12 +163,22 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
     }
 
     @Override
+    public boolean hasRequestFormData(ClassicHttpRequest request) {
+        return false;
+    }
+
+    @Override
     public String extractRequestBody(ClassicHttpRequest request) {
         try {
             return EntityUtils.toString(request.getEntity());
         } catch (ParseException | IOException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<FormParameter> extractRequestFormData(ClassicHttpRequest request) {
+        return List.of();
     }
 
     @Override

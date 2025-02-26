@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'signing'
     alias(libs.plugins.com.netflix.nebula.javadoc.jar)
     alias(libs.plugins.com.netflix.nebula.source.jar)
     alias(libs.plugins.com.netflix.nebula.maven.publish)
@@ -29,11 +30,14 @@ subprojects {
         apply plugin: 'com.netflix.nebula.maven-developer'
         apply plugin: 'org.jreleaser'
         apply plugin: 'application'
+        apply plugin: 'signing'
 
         ext {
             stagingDirName = 'staging-deploy'
         }
-
+        signing {
+            sign publishing.publications.nebula
+        }
         publishing {
             publications {
                 nebula(MavenPublication) {
@@ -61,6 +65,18 @@ subprojects {
             repositories {
                 maven {
                     url = layout.buildDirectory.dir(stagingDirName)
+                }
+                maven {
+                    name = "LocalMavenWithChecksums"
+                    url = uri(layout.buildDirectory.dir("staging-deploy2"))
+                }
+                maven {
+                    name = 'Snapshots'
+                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+                    credentials {
+                        username = System.getenv("MAVEN_USERNAME")
+                        password = System.getenv("MAVEN_PASSWORD")
+                    }
                 }
             }
         }
@@ -101,6 +117,9 @@ jreleaser {
     project {
         copyright = 'jora.dev'
         description = 'Postman collection models for postman4j.'
+        snapshot {
+            enabled = true
+        }
     }
     signing {
         active = 'ALWAYS'
@@ -111,6 +130,7 @@ jreleaser {
     }
     deploy {
         maven {
+            active = 'ALWAYS'
             mavenCentral {
                 sonatype {
                     active = 'ALWAYS'

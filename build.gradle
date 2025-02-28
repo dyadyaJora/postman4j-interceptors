@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-//    id 'signing'
+    id 'signing'
     alias(libs.plugins.com.netflix.nebula.javadoc.jar)
     alias(libs.plugins.com.netflix.nebula.source.jar)
     alias(libs.plugins.com.netflix.nebula.maven.publish)
@@ -30,14 +30,13 @@ subprojects {
         apply plugin: 'com.netflix.nebula.maven-developer'
         apply plugin: 'org.jreleaser'
         apply plugin: 'application'
-//        apply plugin: 'signing'
+        apply plugin: 'signing'
 
         ext {
             stagingDirName = 'staging-deploy'
+            localDirName = 'staging-deploy2'
         }
-//        signing {
-//            sign publishing.publications.nebula
-//        }
+
         publishing {
             publications {
                 nebula(MavenPublication) {
@@ -64,12 +63,13 @@ subprojects {
 
             repositories {
                 maven {
+                    name = "Staging"
                     url = layout.buildDirectory.dir(stagingDirName)
                 }
-//                maven {
-//                    name = "LocalMavenWithChecksums"
-//                    url = uri(layout.buildDirectory.dir("staging-deploy2"))
-//                }
+                maven {
+                    name = "LocalMavenWithChecksums"
+                    url = uri(layout.buildDirectory.dir(localDirName))
+                }
 //                maven {
 //                    name = 'Snapshots'
 //                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
@@ -80,6 +80,13 @@ subprojects {
 //                }
             }
         }
+
+
+        signing {
+            required = false
+            sign publishing.publications.nebula
+        }
+
     }
 
     sourceCompatibility = JavaVersion.VERSION_11

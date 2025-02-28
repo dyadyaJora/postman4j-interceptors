@@ -1,5 +1,6 @@
 package dev.jora.postman4j.testng;
 
+import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
 import dev.jora.postman4j.utils.ConverterUtils;
 import io.restassured.RestAssured;
@@ -19,7 +20,7 @@ public class PostmanTestNgSuiteListener implements ISuiteListener {
     private final PostmanRestassuredFilter postmanRestassuredFilter;
 
     public PostmanTestNgSuiteListener() {
-        postmanRestassuredFilter = new PostmanRestassuredFilter();
+        postmanRestassuredFilter = FilterFactory.getInstance();
         RestAssured.filters(postmanRestassuredFilter);
     }
 

@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'signing'
+//    id 'signing'
     alias(libs.plugins.com.netflix.nebula.javadoc.jar)
     alias(libs.plugins.com.netflix.nebula.source.jar)
     alias(libs.plugins.com.netflix.nebula.maven.publish)
@@ -30,14 +30,14 @@ subprojects {
         apply plugin: 'com.netflix.nebula.maven-developer'
         apply plugin: 'org.jreleaser'
         apply plugin: 'application'
-        apply plugin: 'signing'
+//        apply plugin: 'signing'
 
         ext {
             stagingDirName = 'staging-deploy'
         }
-        signing {
-            sign publishing.publications.nebula
-        }
+//        signing {
+//            sign publishing.publications.nebula
+//        }
         publishing {
             publications {
                 nebula(MavenPublication) {
@@ -66,18 +66,18 @@ subprojects {
                 maven {
                     url = layout.buildDirectory.dir(stagingDirName)
                 }
-                maven {
-                    name = "LocalMavenWithChecksums"
-                    url = uri(layout.buildDirectory.dir("staging-deploy2"))
-                }
-                maven {
-                    name = 'Snapshots'
-                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-                    credentials {
-                        username = System.getenv("MAVEN_USERNAME")
-                        password = System.getenv("MAVEN_PASSWORD")
-                    }
-                }
+//                maven {
+//                    name = "LocalMavenWithChecksums"
+//                    url = uri(layout.buildDirectory.dir("staging-deploy2"))
+//                }
+//                maven {
+//                    name = 'Snapshots'
+//                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+//                    credentials {
+//                        username = System.getenv("MAVEN_USERNAME")
+//                        password = System.getenv("MAVEN_PASSWORD")
+//                    }
+//                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package dev.jora.postman4j.junit5;
 
+import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
 import dev.jora.postman4j.utils.ConverterUtils;
 import io.restassured.RestAssured;
@@ -20,7 +21,7 @@ import static dev.jora.postman4j.PostmanRestassuredUtils.saveCollectionToFile;
 public class PostmanJunit5Extension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
     private final PostmanRestassuredFilter postmanRestassuredFilter;
     public PostmanJunit5Extension() {
-        postmanRestassuredFilter = new PostmanRestassuredFilter();
+        postmanRestassuredFilter = FilterFactory.getInstance();
         RestAssured.filters(postmanRestassuredFilter);
     }
 

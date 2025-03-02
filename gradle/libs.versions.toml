@@ -34,7 +34,7 @@ jackson = "2.18.2"
 
 nebula = "21.1.1"
 
-restAssured = "4.5.1"
+restAssured = "5.5.1"
 
 [libraries]
 

@@ -54,7 +54,7 @@ commons-lang3 = "org.apache.commons:commons-lang3:3.17.0"
 
 logback-classic = "ch.qos.logback:logback-classic:1.5.16"
 
-wiremock = "org.wiremock:wiremock:3.9.2"
+wiremock = "org.wiremock:wiremock:3.12.1"
 
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 

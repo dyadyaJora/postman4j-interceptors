@@ -12,7 +12,7 @@ com-netflix-nebula-maven-developer = { id = "com.netflix.nebula.maven-developer"
 
 com-netflix-nebula-contacts = { id = "com.netflix.nebula.contacts", version = "7.0.1" }
 
-org-jreleaser = { id = "org.jreleaser", version = "1.16.0" }
+org-jreleaser = { id = "org.jreleaser", version = "1.15.0" }
 
 com-github-ben-manes-versions = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 

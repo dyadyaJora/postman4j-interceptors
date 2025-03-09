@@ -24,7 +24,7 @@ The project includes a module with Java classes for Postman collections, which c
 
 In gradle
 ```gradle
-implementation group: 'dev.jora.postman4j', name: 'postman4j-models', version: '0.0.3'
+implementation group: 'dev.jora.postman4j', name: 'postman4j-models', version: '0.0.4'
 ```
 
 In maven
@@ -32,7 +32,7 @@ In maven
 <dependency>
     <groupId>dev.jora.postman4j</groupId>
     <artifactId>postman4j-models</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ Currently supported two interceptors: apache http client 5 as clientside integra
 
 In gradle
 ```gradle
-implementation group: 'dev.jora.postman4j', name: 'hc5-interceptor', version: '0.0.3'
+implementation group: 'dev.jora.postman4j', name: 'hc5-interceptor', version: '0.0.4'
 ```
 
 In maven
@@ -54,7 +54,7 @@ In maven
 <dependency>
     <groupId>dev.jora.postman4j</groupId>
     <artifactId>hc5-interceptor</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -83,7 +83,7 @@ Example of generated collection
 
 In gradle
 ```gradle
-implementation group: 'dev.jora.postman4j', name: 'spring-interceptor', version: '0.0.3'
+implementation group: 'dev.jora.postman4j', name: 'spring-interceptor', version: '0.0.4'
 ```
 
 In maven
@@ -91,7 +91,7 @@ In maven
 <dependency>
     <groupId>dev.jora.postman4j</groupId>
     <artifactId>spring-interceptor</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 

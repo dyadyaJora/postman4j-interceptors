@@ -30,7 +30,7 @@ spring = "6.2.3"
 
 aspectj = "1.9.22.1"
 
-jackson = "2.18.2"
+jackson = "2.18.3"
 
 nebula = "21.1.1"
 

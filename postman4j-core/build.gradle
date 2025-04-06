@@ -1,0 +1,24 @@
+plugins {
+    id 'java-library'
+    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
+}
+
+group = 'dev.jora.postman4j'
+version = '0.0.4'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api project(':postman4j-models')
+    implementation libs.slf4j.api
+    implementation libs.aspectjrt
+    implementation libs.aspectjweaver
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

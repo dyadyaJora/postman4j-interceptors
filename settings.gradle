@@ -10,4 +10,5 @@ include 'postman4j-aspect-tests'
 include 'spring-interceptor'
 include 'postman4j-spring-tests'
 include 'restassured-interceptor'
+include 'postman4j-core'
 

@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface UsePostmanRequest {
     String value();
+
+    String[] context() default {};
 }

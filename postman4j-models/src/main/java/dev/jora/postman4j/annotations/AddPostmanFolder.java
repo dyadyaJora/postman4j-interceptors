@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface AddPostmanFolder {
     String value();
+
+    String[] context() default {};
 }

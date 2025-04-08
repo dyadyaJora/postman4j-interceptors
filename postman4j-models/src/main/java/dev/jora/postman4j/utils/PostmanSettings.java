@@ -115,6 +115,8 @@ public class PostmanSettings {
     @lombok.Builder.Default
     private final boolean disableOnActuator = true;
 
+    // TODO: contextId
+
     public boolean shouldSaveAll() {
         return selectedStatuses.isEmpty() && selectedHeaders.isEmpty() && selectedExceptions.isEmpty();
     }

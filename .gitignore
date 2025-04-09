@@ -49,3 +49,5 @@ postman_collection.json
 *.key
 *.pgp
 collection.json
+
+.run

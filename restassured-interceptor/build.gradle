@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
 }
 
 group = 'dev.jora.postman4j'
@@ -18,8 +17,6 @@ dependencies {
     implementation libs.jackson.databind
     implementation libs.jackson.core
     implementation libs.jackson.annotations
-    implementation libs.aspectjrt
-    implementation libs.aspectjweaver
     implementation libs.junit.jupiter.engine
     implementation libs.testng
 

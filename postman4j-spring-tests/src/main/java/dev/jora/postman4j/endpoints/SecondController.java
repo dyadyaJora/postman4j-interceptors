@@ -17,7 +17,7 @@ import static dev.jora.postman4j.endpoints.SecondController.SECOND_COLLECTION_NA
 /**
  * @author dyadyaJora on 05.01.2025
  */
-@Slf4j
+//@Slf4j
 @RestController
 @RequestMapping(produces = "application/json")
 @UsePostmanCollection(SECOND_COLLECTION_NAME)

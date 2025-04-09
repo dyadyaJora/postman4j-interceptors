@@ -1,5 +1,7 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.core.IPostmanContext;
+import dev.jora.postman4j.core.PostmanContextHolder;
 import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.Header;
 import dev.jora.postman4j.models.HeaderElement;
@@ -30,11 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class PostmanMiddlewareFilter extends OncePerRequestFilter implements BasePostmanInterceptor<ContentCachingRequestWrapper, ContentCachingResponseWrapper> {
 
-    private final PostmanSettings settings;
-    private final AtomicInteger counter = new AtomicInteger(0);
-
-    @Getter
-    private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
+    private IPostmanContext context;
 
     @Getter
     enum Attribute {
@@ -54,7 +52,11 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
     }
 
     public PostmanMiddlewareFilter(PostmanSettings settings) {
-        this.settings = settings;
+        this(null, settings);
+    }
+
+    public PostmanMiddlewareFilter(String contextId, PostmanSettings settings) {
+        this.context = PostmanContextHolder.getInstance().getServerContext(contextId, settings, ServletPostmanContext::new);
     }
 
     @Override
@@ -87,18 +89,23 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
     }
 
     public void clean() {
-        this.data.clear();
-        this.counter.set(0);
+        this.context.getData().clear();
+        this.context.getCounter().set(0);
+    }
+
+    @Override
+    public ConcurrentHashMap<String, PostmanCollection> getData() {
+        return this.context.getData();
     }
 
     @Override
     public AtomicInteger getCounter() {
-        return this.counter;
+        return this.context.getCounter();
     }
 
     @Override
     public PostmanSettings getSettings() {
-        return this.settings;
+        return this.context.getSettings();
     }
 
     @Override
@@ -108,7 +115,7 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
 
     @Override
     public Optional<String> extractHeaderValue(ContentCachingRequestWrapper request) {
-        return Collections.list(request.getHeaders(this.settings.getHeaderName())).stream()
+        return Collections.list(request.getHeaders(this.context.getSettings().getHeaderName())).stream()
                 .filter(Objects::nonNull)
                 .findFirst();
     }
@@ -120,7 +127,7 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
 
     @Override
     public String extractCollectionName(ContentCachingRequestWrapper request) {
-        return request.getAttribute(Attribute.COLLECTION_NAME.getValue()) != null ? request.getAttribute(Attribute.COLLECTION_NAME.getValue()).toString() : this.settings.getBaseCollectionName();
+        return request.getAttribute(Attribute.COLLECTION_NAME.getValue()) != null ? request.getAttribute(Attribute.COLLECTION_NAME.getValue()).toString() : this.context.getSettings().getBaseCollectionName();
     }
 
     @Override

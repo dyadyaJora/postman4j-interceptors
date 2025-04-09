@@ -66,6 +66,26 @@ public class PostmanCoreAspect {
         });
     }
 
+    // Handle class-level annotation
+    @Around("execution(* *(..)) && @within(dev.jora.postman4j.annotations.UsePostmanCollection)")
+    public Object handleClassLevelCollection(ProceedingJoinPoint joinPoint) throws Throwable {
+        Class<?> targetClass = joinPoint.getTarget().getClass();
+        if (targetClass.isAnnotationPresent(UsePostmanCollection.class)) {
+            UsePostmanCollection annotation = targetClass.getAnnotation(UsePostmanCollection.class);
+            String name = annotation.value();
+            log.debug("Setting class-level collection name: {}", name);
+
+            return handleGeneric(joinPoint,
+                    name,
+                    annotation.context(),
+                    IPostmanContext::setCollectionName,
+                    IPostmanContext::removeCollectionName
+            );
+        }
+
+        return joinPoint.proceed();
+    }
+
     // @UsePostmanCollection handling
     @Pointcut("@annotation(usePostmanCollection)")
     public void usePostmanCollectionPointcut(UsePostmanCollection usePostmanCollection) {}
@@ -150,21 +170,4 @@ public class PostmanCoreAspect {
         );
     }
 
-    // Handle class-level annotation
-//    @Pointcut("execution(* *(..)) && @within(usePostmanCollection)")
-//    public void classWithPostmanCollection(UsePostmanCollection usePostmanCollection) {}
-//
-//    @Around("classWithPostmanCollection(usePostmanCollection)")
-//    public Object handleClassLevelCollection(ProceedingJoinPoint joinPoint, UsePostmanCollection usePostmanCollection) throws Throwable {
-//        String name = usePostmanCollection.value();
-//        log.debug("Setting class-level collection name: {}", name);
-//
-//        contextHolder.setCollectionName(name);
-//        try {
-//            return joinPoint.proceed();
-//        } finally {
-//            contextHolder.removeCollectionName();
-//            contextHolder.clearContext();
-//        }
-//    }
 }

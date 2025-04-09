@@ -59,7 +59,7 @@ public class PostmanSettings {
      * Enable logging of current collection to stdout when in changed
      */
     @lombok.Builder.Default
-    private final boolean logWhenChanged = true;
+    private final boolean logWhenChanged = false;
 
     /**
      * The naming strategy for the items

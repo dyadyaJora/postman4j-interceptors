@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    alias(libs.plugins.io.freefair.aspectj.post.compile.weaving)
     alias(libs.plugins.org.springframework.boot)
     alias(libs.plugins.io.spring.dependency.management)
 }
@@ -17,7 +18,7 @@ configurations {
 }
 
 dependencies {
-    api project(":spring-interceptor")
+    aspect project(":spring-interceptor")
 
     implementation Spring.boot.web
     implementation Spring.boot.actuator

@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    alias(libs.plugins.io.spring.dependency.management)
 }
 
 group = 'dev.jora.postman4j'
@@ -16,6 +15,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     api project(':postman4j-models')
+    api project(':postman4j-core')
 
     implementation libs.spring.aop
     implementation libs.spring.context
@@ -28,9 +28,6 @@ dependencies {
     implementation libs.commons.io
     implementation libs.commons.lang3
     implementation libs.logback.classic
-
-    implementation libs.aspectjrt
-    implementation libs.aspectjweaver
 }
 
 

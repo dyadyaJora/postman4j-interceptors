@@ -1,5 +1,7 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.core.IPostmanContext;
+import dev.jora.postman4j.core.PostmanContextHolder;
 import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.Header;
 import dev.jora.postman4j.models.HeaderElement;
@@ -27,27 +29,21 @@ import java.util.stream.Stream;
  */
 @Getter
 public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<FilterableRequestSpecification, Response> {
-
-    private final PostmanSettings settings;
-
-    private final AtomicInteger counter = new AtomicInteger(0);
+    private IPostmanContext context;
 
     // @TODO: reimplement with stack
-    private static final ThreadLocal<String> currentCollectionNameHolder = new ThreadLocal<>();
-    private static final ThreadLocal<List<String>> currentFoldersHolder = new ThreadLocal<>();
-    private static final ThreadLocal<String> currentFolderPathHolder = new ThreadLocal<>();
-
-    private static final ThreadLocal<String> currentRequestNameHolder = new ThreadLocal<>();
-    private static final ThreadLocal<String> currentResponseNameHolder = new ThreadLocal<>();
     private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
-
 
     public PostmanRestassuredFilter() {
         this(PostmanSettings.builder().build());
     }
 
     public PostmanRestassuredFilter(PostmanSettings settings) {
-        this.settings = settings;
+        this(null, settings);
+    }
+
+    public PostmanRestassuredFilter(String contextId, PostmanSettings settings) {
+        this.context = PostmanContextHolder.getInstance().getClientContext(contextId, settings);
     }
 
     @Override
@@ -61,13 +57,23 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     }
 
     @Override
+    public PostmanSettings getSettings() {
+        return this.context.getSettings();
+    }
+
+    @Override
+    public AtomicInteger getCounter() {
+        return this.context.getCounter();
+    }
+
+    @Override
     public String extractRequestName(FilterableRequestSpecification request) {
-        return currentRequestNameHolder.get();
+        return this.context.getRequestName();
     }
 
     @Override
     public Optional<String> extractHeaderValue(FilterableRequestSpecification request) {
-        return Stream.of(request.getHeaders().getValues(this.settings.getHeaderName()))
+        return Stream.of(request.getHeaders().getValues(this.getContext().getSettings().getHeaderName()))
                 .filter(Objects::nonNull)
                 .flatMap(List::stream)
                 .findFirst();
@@ -80,15 +86,15 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
 
     @Override
     public String extractCollectionName(FilterableRequestSpecification request) {
-        return currentCollectionNameHolder.get() != null ? currentCollectionNameHolder.get() : this.settings.getBaseCollectionName();
+        return context.getCollectionName() != null ? context.getCollectionName() : this.context.getSettings().getBaseCollectionName();
     }
 
     @Override
     public List<String> extractFolderNames(FilterableRequestSpecification request) {
-        if (currentFolderPathHolder.get() != null) {
-            return List.of(currentFolderPathHolder.get().split("/"));
+        if (this.context.getFolderPath() != null) {
+            return List.of(this.context.getFolderPath().split("/"));
         }
-        return currentFoldersHolder.get();
+        return this.context.getFolders();
     }
 
     @Override
@@ -177,62 +183,7 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
 
     @Override
     public String extractResponseName(FilterableRequestSpecification request, Response response) {
-        return currentResponseNameHolder.get() == null ? response.getStatusLine() : currentResponseNameHolder.get();
-    }
-
-
-    public static String getCollectionName() {
-        return currentCollectionNameHolder.get();
-    }
-
-    public static void setCollectionName(String prefix) {
-        currentCollectionNameHolder.set(prefix);
-    }
-
-    public static void removeCollectionName() {
-        currentCollectionNameHolder.remove();
-    }
-
-    public static void setRequestName(String prefix) {
-        currentRequestNameHolder.set(prefix);
-    }
-
-    public static void removeRequestName() {
-        currentRequestNameHolder.remove();
-    }
-
-    public static void setResponseName(String prefix) {
-        currentResponseNameHolder.set(prefix);
-    }
-
-    public static void removeResponseName() {
-        currentResponseNameHolder.remove();
-    }
-
-    public static void setFolderPath(String prefix) {
-        currentFolderPathHolder.set(prefix);
-    }
-
-    public static void removeFolderPath() {
-        currentFolderPathHolder.remove();
-    }
-
-    public static void addFolder(String folder) {
-        List<String> folders = currentFoldersHolder.get();
-        if (folders == null) {
-            folders = new ArrayList<>();
-            currentFoldersHolder.set(folders);
-        }
-        folders.add(folder);
-    }
-
-    public static void removeFolder() {
-        List<String> folders = currentFoldersHolder.get();
-        if (folders != null) {
-            if (!folders.isEmpty()) {
-                folders.remove(folders.size() - 1);
-            }
-        }
+        return this.context.getResponseName() == null ? response.getStatusLine() : this.context.getResponseName();
     }
 }
 

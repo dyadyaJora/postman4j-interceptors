@@ -2,6 +2,7 @@ package dev.jora.postman4j.junit5;
 
 import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
+import dev.jora.postman4j.core.PostmanContextHolder;
 import dev.jora.postman4j.utils.ConverterUtils;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -27,25 +28,25 @@ public class PostmanJunit5Extension implements BeforeAllCallback, AfterAllCallba
 
     @Override
     public void afterAll(ExtensionContext context) throws Exception {
-        String currentCollectionName = postmanRestassuredFilter.getCollectionName();
+        String currentCollectionName = postmanRestassuredFilter.getContext().getCollectionName();
         String currentCollection = ConverterUtils.toJsonString(postmanRestassuredFilter.getData().get(currentCollectionName));
         Path buildDir = Paths.get(context.getConfigurationParameter("buildDir").orElse("build"));
         saveCollectionToFile(buildDir, currentCollectionName, currentCollection);
-        PostmanRestassuredFilter.setCollectionName(null);
+        postmanRestassuredFilter.getContext().setCollectionName(null);
     }
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-        PostmanRestassuredFilter.removeFolder();
+        PostmanContextHolder.getInstance().getClientContext().removeFolder();
     }
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-        PostmanRestassuredFilter.setCollectionName(context.getRequiredTestClass().getName());
+        PostmanContextHolder.getInstance().getClientContext().setCollectionName(context.getRequiredTestClass().getName());
     }
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-        PostmanRestassuredFilter.addFolder(context.getRequiredTestMethod().getName());
+        PostmanContextHolder.getInstance().getClientContext().addFolder(context.getRequiredTestMethod().getName());
     }
 }

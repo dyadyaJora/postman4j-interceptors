@@ -1,6 +1,5 @@
 package dev.jora.postman4j.junit5;
 
-import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
 import dev.jora.postman4j.core.IPostmanContext;
 import dev.jora.postman4j.core.PostmanContextHolder;

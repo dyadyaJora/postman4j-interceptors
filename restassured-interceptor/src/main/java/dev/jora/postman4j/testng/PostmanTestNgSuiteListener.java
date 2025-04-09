@@ -1,10 +1,8 @@
 package dev.jora.postman4j.testng;
 
-import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
 import dev.jora.postman4j.core.IPostmanContext;
 import dev.jora.postman4j.utils.ConverterUtils;
-import dev.jora.postman4j.utils.PostmanSettings;
 import io.restassured.RestAssured;
 import lombok.SneakyThrows;
 import org.testng.ISuite;

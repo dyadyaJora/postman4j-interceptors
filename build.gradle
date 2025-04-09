@@ -22,7 +22,7 @@ repositories {
 subprojects {
     apply plugin: 'java'
 
-    if (project.name == 'postman4j-models' || project.name == 'hc5-interceptor'|| project.name == 'spring-interceptor' || project.name == 'restassured-interceptor') {
+    if (project.name == 'postman4j-models' || project.name == 'postman4j-core' || project.name == 'hc5-interceptor'|| project.name == 'spring-interceptor' || project.name == 'restassured-interceptor') {
         apply plugin: 'com.netflix.nebula.contacts'
         apply plugin: 'com.netflix.nebula.javadoc-jar'
         apply plugin: 'com.netflix.nebula.source-jar'
@@ -70,14 +70,14 @@ subprojects {
                     name = "LocalMavenWithChecksums"
                     url = uri(layout.buildDirectory.dir(localDirName))
                 }
-//                maven {
-//                    name = 'Snapshots'
-//                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-//                    credentials {
-//                        username = System.getenv("MAVEN_USERNAME")
-//                        password = System.getenv("MAVEN_PASSWORD")
-//                    }
-//                }
+                maven {
+                    name = 'Snapshots'
+                    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+                    credentials {
+                        username = System.getenv("MAVEN_USERNAME")
+                        password = System.getenv("MAVEN_PASSWORD")
+                    }
+                }
             }
         }
 

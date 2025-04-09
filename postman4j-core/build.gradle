@@ -4,7 +4,6 @@ plugins {
 }
 
 group = 'dev.jora.postman4j'
-version = '0.0.4'
 
 repositories {
     mavenCentral()

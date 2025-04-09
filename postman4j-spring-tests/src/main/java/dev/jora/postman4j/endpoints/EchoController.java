@@ -23,7 +23,7 @@ import static dev.jora.postman4j.endpoints.EchoController.ECHO_COLLECTION_NAME;
 /**
  * @author dyadyaJora on 30.12.2024
  */
-@Slf4j
+//@Slf4j
 @RestController
 @RequestMapping(produces = "application/json")
 @UsePostmanCollection(ECHO_COLLECTION_NAME)

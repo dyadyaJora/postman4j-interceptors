@@ -36,10 +36,6 @@ import java.util.stream.Stream;
 public class PostmanRequestExecutor extends HttpRequestExecutor implements BasePostmanInterceptor<ClassicHttpRequest, ClassicHttpResponse> {
     private IPostmanContext context;
 
-    @Getter
-    private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
-
-
     public PostmanRequestExecutor() {
         this(PostmanSettings.builder().build());
     }
@@ -188,6 +184,11 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
     @Override
     public String extractResponseName(ClassicHttpRequest request, ClassicHttpResponse response) {
         return this.context.getResponseName() == null ? response.getCode() + " " + response.getReasonPhrase() : this.context.getResponseName();
+    }
+
+    @Override
+    public ConcurrentHashMap<String, PostmanCollection> getData() {
+        return this.context.getData();
     }
 
     @Override

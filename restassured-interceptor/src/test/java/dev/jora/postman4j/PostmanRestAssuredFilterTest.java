@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,7 +62,7 @@ public class PostmanRestAssuredFilterTest {
 
     @Test
     public void testFormDataRequest() throws JsonProcessingException {
-        PostmanRestassuredFilter filter = new PostmanRestassuredFilter();
+        PostmanRestassuredFilter filter = new PostmanRestassuredFilter(UUID.randomUUID().toString(), null);
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .setBaseUri("http://" + WIREMOCK_HOST)
                 .setPort(WIREMOCK_PORT)

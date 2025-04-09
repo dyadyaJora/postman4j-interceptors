@@ -31,9 +31,6 @@ import java.util.stream.Stream;
 public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<FilterableRequestSpecification, Response> {
     private IPostmanContext context;
 
-    // @TODO: reimplement with stack
-    private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
-
     public PostmanRestassuredFilter() {
         this(PostmanSettings.builder().build());
     }
@@ -59,6 +56,11 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     @Override
     public PostmanSettings getSettings() {
         return this.context.getSettings();
+    }
+
+    @Override
+    public ConcurrentHashMap<String, PostmanCollection> getData() {
+        return this.context.getData();
     }
 
     @Override

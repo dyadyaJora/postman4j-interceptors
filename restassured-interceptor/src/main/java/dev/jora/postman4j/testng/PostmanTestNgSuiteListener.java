@@ -4,6 +4,7 @@ import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
 import dev.jora.postman4j.core.IPostmanContext;
 import dev.jora.postman4j.utils.ConverterUtils;
+import dev.jora.postman4j.utils.PostmanSettings;
 import io.restassured.RestAssured;
 import lombok.SneakyThrows;
 import org.testng.ISuite;
@@ -22,7 +23,7 @@ public class PostmanTestNgSuiteListener implements ISuiteListener {
 
     public PostmanTestNgSuiteListener() {
         String postmanContextId = System.getProperty("postmanContextId", IPostmanContext.DEFAULT_CONTEXT_ID);
-        postmanRestassuredFilter = FilterFactory.getInstance();
+        postmanRestassuredFilter = new PostmanRestassuredFilter(postmanContextId, null);
         RestAssured.filters(postmanRestassuredFilter);
     }
 

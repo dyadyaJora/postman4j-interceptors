@@ -4,6 +4,7 @@ plugins {
 }
 
 group = 'dev.jora.postman4j'
+description = 'Core processing logic for postman4j.'
 
 repositories {
     mavenCentral()

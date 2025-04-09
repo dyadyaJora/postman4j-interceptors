@@ -112,6 +112,13 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
     }
 
     @Override
+    public boolean isFormDataUrlEncoded(ClassicHttpRequest request) {
+        return request.getLastHeader("Content-Type") != null &&
+                request.getLastHeader("Content-Type").getValue() != null &&
+                request.getLastHeader("Content-Type").getValue().contains("application/x-www-form-urlencoded");
+    }
+
+    @Override
     public String extractRequestBody(ClassicHttpRequest request) {
         try {
             return EntityUtils.toString(request.getEntity());

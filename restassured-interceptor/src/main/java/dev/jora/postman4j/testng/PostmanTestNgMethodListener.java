@@ -1,6 +1,7 @@
 package dev.jora.postman4j.testng;
 
 import dev.jora.postman4j.PostmanRestassuredFilter;
+import dev.jora.postman4j.core.PostmanContextHolder;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestNGMethod;
@@ -13,14 +14,14 @@ public class PostmanTestNgMethodListener implements IInvokedMethodListener {
     @Override
     public void beforeInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
         if (!isConfigMethod(iInvokedMethod.getTestMethod())) {
-            PostmanRestassuredFilter.addFolder(iInvokedMethod.getTestMethod().getMethodName());
+            PostmanContextHolder.getInstance().getClientContext().addFolder(iInvokedMethod.getTestMethod().getMethodName());
         }
     }
 
     @Override
     public void afterInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
         if (!isConfigMethod(iInvokedMethod.getTestMethod())) {
-            PostmanRestassuredFilter.removeFolder();
+            PostmanContextHolder.getInstance().getClientContext().removeFolder();
         }
     }
 

@@ -2,6 +2,7 @@ package dev.jora.postman4j.testng;
 
 import dev.jora.postman4j.FilterFactory;
 import dev.jora.postman4j.PostmanRestassuredFilter;
+import dev.jora.postman4j.core.IPostmanContext;
 import dev.jora.postman4j.utils.ConverterUtils;
 import io.restassured.RestAssured;
 import lombok.SneakyThrows;
@@ -20,22 +21,23 @@ public class PostmanTestNgSuiteListener implements ISuiteListener {
     private final PostmanRestassuredFilter postmanRestassuredFilter;
 
     public PostmanTestNgSuiteListener() {
+        String postmanContextId = System.getProperty("postmanContextId", IPostmanContext.DEFAULT_CONTEXT_ID);
         postmanRestassuredFilter = FilterFactory.getInstance();
         RestAssured.filters(postmanRestassuredFilter);
     }
 
     @Override
     public void onStart(ISuite iSuite) {
-        PostmanRestassuredFilter.setCollectionName(iSuite.getName());
+        postmanRestassuredFilter.getContext().setCollectionName(iSuite.getName());
     }
 
     @SneakyThrows
     @Override
     public void onFinish(ISuite iSuite) {
-        String currentCollectionName = PostmanRestassuredFilter.getCollectionName();
+        String currentCollectionName = postmanRestassuredFilter.getContext().getCollectionName();
         String currentCollection = ConverterUtils.toJsonString(postmanRestassuredFilter.getData().get(currentCollectionName));
         Path buildDir = Paths.get("./build");
         saveCollectionToFile(buildDir, currentCollectionName, currentCollection);
-        PostmanRestassuredFilter.setCollectionName(null);
+        postmanRestassuredFilter.getContext().setCollectionName(null);
     }
 }

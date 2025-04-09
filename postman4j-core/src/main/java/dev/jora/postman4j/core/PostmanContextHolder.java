@@ -4,7 +4,6 @@ import dev.jora.postman4j.utils.PostmanSettings;
 import lombok.Getter;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author dyadyaJora on 06.04.2025
@@ -26,11 +25,17 @@ public class PostmanContextHolder {
         if (contextId == null) {
             contextId = IPostmanContext.DEFAULT_CONTEXT_ID;
         }
-        getContext(contextId).getClientContext().compareAndSet(null, new PostmanContext());
-        if (settings != null) {
-            getContext().getClientContext().get().setSettings(settings);
-        }
-        return getContext().getClientContext().get();
+
+        return holder.compute(contextId, (key, container) -> {
+            if (container == null) {
+                container = new PostmanContextContainer();
+            }
+            container.getClientContext().compareAndSet(null, new PostmanContext());
+            if (settings != null) {
+                container.getClientContext().get().setSettings(settings);
+            }
+            return container;
+        }).getClientContext().get();
     }
 
     public IPostmanContext getClientContext(PostmanSettings settings) {

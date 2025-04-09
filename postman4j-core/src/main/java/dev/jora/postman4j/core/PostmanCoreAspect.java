@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author dyadyaJora on 06.04.2025
@@ -20,6 +22,50 @@ public class PostmanCoreAspect {
     private static final Logger log = LoggerFactory.getLogger(PostmanCoreAspect.class);
     private final PostmanContextHolder contextHolder = PostmanContextHolder.getInstance();
 
+    private Set<String> getContexts(String[] specifiedContexts) {
+        return specifiedContexts.length > 0 ? Set.of(specifiedContexts) : contextHolder.getHolder().keySet();
+    }
+
+    private Object handleGeneric(
+            ProceedingJoinPoint joinPoint,
+            String value,
+            String[] contextKeys,
+            BiConsumer<IPostmanContext, String> setter,
+            Consumer<IPostmanContext> remover
+    ) throws Throwable {
+        Set<String> contexts = getContexts(contextKeys);
+        handleContextOperation(contexts, ctx -> {
+            if (ctx.getClientContext().get() != null) {
+                setter.accept(ctx.getClientContext().get(), value);
+            }
+            if (ctx.getServerContext().get() != null) {
+                setter.accept(ctx.getServerContext().get(), value);
+            }
+        });
+
+        try {
+            return joinPoint.proceed();
+        } finally {
+            handleContextOperation(contexts, ctx -> {
+                if (ctx.getClientContext().get() != null) {
+                    remover.accept(ctx.getClientContext().get());
+                }
+                if (ctx.getServerContext().get() != null) {
+                    remover.accept(ctx.getServerContext().get());
+                }
+            });
+        }
+    }
+
+    private void handleContextOperation(Set<String> contexts, Consumer<PostmanContextContainer> operation) {
+        contexts.forEach(context -> {
+            PostmanContextContainer contextContainer = contextHolder.getContext(context);
+            if (contextContainer != null) {
+                operation.accept(contextContainer);
+            }
+        });
+    }
+
     // @UsePostmanCollection handling
     @Pointcut("@annotation(usePostmanCollection)")
     public void usePostmanCollectionPointcut(UsePostmanCollection usePostmanCollection) {}
@@ -28,43 +74,12 @@ public class PostmanCoreAspect {
     public Object handleCollectionName(ProceedingJoinPoint joinPoint, UsePostmanCollection usePostmanCollection) throws Throwable {
         String name = usePostmanCollection.value();
         log.debug("Setting collection name: {}", name);
-
-        Set<String> contextsToGet;
-        if (usePostmanCollection.context().length > 0) {
-            contextsToGet = Set.of(usePostmanCollection.context());
-        } else {
-            contextsToGet = contextHolder.getHolder().keySet();
-        }
-
-        contextsToGet.forEach(context -> {
-            PostmanContextContainer contextContainer = contextHolder.getContext(context);
-            if (contextContainer == null) {
-                return;
-            }
-            if (contextContainer.getClientContext().get() != null) {
-                contextContainer.getClientContext().get().setCollectionName(name);
-            }
-            if (contextContainer.getServerContext().get() != null) {
-                contextContainer.getServerContext().get().setCollectionName(name);
-            }
-        });
-
-        try {
-            return joinPoint.proceed();
-        } finally {
-            contextsToGet.forEach(context -> {
-                PostmanContextContainer contextContainer = contextHolder.getContext(context);
-                if (contextContainer == null) {
-                    return;
-                }
-                if (contextContainer.getClientContext().get() != null) {
-                    contextContainer.getClientContext().get().removeCollectionName();
-                }
-                if (contextContainer.getServerContext().get() != null) {
-                    contextContainer.getServerContext().get().removeCollectionName();
-                }
-            });
-        }
+        return handleGeneric(joinPoint,
+                name,
+                usePostmanCollection.context(),
+                IPostmanContext::setCollectionName,
+                IPostmanContext::removeCollectionName
+        );
     }
 
     // @UsePostmanFolderPath handling
@@ -76,42 +91,12 @@ public class PostmanCoreAspect {
         String path = usePostmanFolderPath.value();
         log.debug("Setting folder path: {}", path);
 
-        Set<String> contextsToGet;
-        if (usePostmanFolderPath.context().length > 0) {
-            contextsToGet = Set.of(usePostmanFolderPath.context());
-        } else {
-            contextsToGet = contextHolder.getHolder().keySet();
-        }
-
-        contextsToGet.forEach(context -> {
-            PostmanContextContainer contextContainer = contextHolder.getContext(context);
-            if (contextContainer == null) {
-                return;
-            }
-            if (contextContainer.getClientContext().get() != null) {
-                contextContainer.getClientContext().get().setFolderPath(path);
-            }
-            if (contextContainer.getServerContext().get() != null) {
-                contextContainer.getServerContext().get().setFolderPath(path);
-            }
-        });
-
-        try {
-            return joinPoint.proceed();
-        } finally {
-            contextsToGet.forEach(context -> {
-                PostmanContextContainer contextContainer = contextHolder.getContext(context);
-                if (contextContainer == null) {
-                    return;
-                }
-                if (contextContainer.getClientContext().get() != null) {
-                    contextContainer.getClientContext().get().removeFolderPath();
-                }
-                if (contextContainer.getServerContext().get() != null) {
-                    contextContainer.getServerContext().get().removeFolderPath();
-                }
-            });
-        }
+        return handleGeneric(joinPoint,
+                path,
+                usePostmanFolderPath.context(),
+                IPostmanContext::setFolderPath,
+                IPostmanContext::removeFolderPath
+        );
     }
 
     // @UsePostmanRequest handling
@@ -123,42 +108,12 @@ public class PostmanCoreAspect {
         String name = usePostmanRequest.value();
         log.debug("Setting request name: {}", name);
 
-        Set<String> contextsToGet;
-        if (usePostmanRequest.context().length > 0) {
-            contextsToGet = Set.of(usePostmanRequest.context());
-        } else {
-            contextsToGet = contextHolder.getHolder().keySet();
-        }
-
-        contextsToGet.forEach(context -> {
-            PostmanContextContainer contextContainer = contextHolder.getContext(context);
-            if (contextContainer == null) {
-                return;
-            }
-            if (contextContainer.getClientContext().get() != null) {
-                contextContainer.getClientContext().get().setRequestName(name);
-            }
-            if (contextContainer.getServerContext().get() != null) {
-                contextContainer.getServerContext().get().setRequestName(name);
-            }
-        });
-
-        try {
-            return joinPoint.proceed();
-        } finally {
-            contextsToGet.forEach(context -> {
-                PostmanContextContainer contextContainer = contextHolder.getContext(context);
-                if (contextContainer == null) {
-                    return;
-                }
-                if (contextContainer.getClientContext().get() != null) {
-                    contextContainer.getClientContext().get().removeRequestName();
-                }
-                if (contextContainer.getServerContext().get() != null) {
-                    contextContainer.getServerContext().get().removeRequestName();
-                }
-            });
-        }
+        return handleGeneric(joinPoint,
+                name,
+                usePostmanRequest.context(),
+                IPostmanContext::setRequestName,
+                IPostmanContext::removeRequestName
+        );
     }
 
     // @UsePostmanResponse handling
@@ -170,42 +125,12 @@ public class PostmanCoreAspect {
         String name = usePostmanResponse.value();
         log.debug("Setting response name: {}", name);
 
-        Set<String> contextsToGet;
-        if (usePostmanResponse.context().length > 0) {
-            contextsToGet = Set.of(usePostmanResponse.context());
-        } else {
-            contextsToGet = contextHolder.getHolder().keySet();
-        }
-
-        contextsToGet.forEach(context -> {
-            PostmanContextContainer contextContainer = contextHolder.getContext(context);
-            if (contextContainer == null) {
-                return;
-            }
-            if (contextContainer.getClientContext().get() != null) {
-                contextContainer.getClientContext().get().setResponseName(name);
-            }
-            if (contextContainer.getServerContext().get() != null) {
-                contextContainer.getServerContext().get().setResponseName(name);
-            }
-        });
-
-        try {
-            return joinPoint.proceed();
-        } finally {
-            contextsToGet.forEach(context -> {
-                PostmanContextContainer contextContainer = contextHolder.getContext(context);
-                if (contextContainer == null) {
-                    return;
-                }
-                if (contextContainer.getClientContext().get() != null) {
-                    contextContainer.getClientContext().get().removeResponseName();
-                }
-                if (contextContainer.getServerContext().get() != null) {
-                    contextContainer.getServerContext().get().removeResponseName();
-                }
-            });
-        }
+        return handleGeneric(joinPoint,
+                name,
+                usePostmanResponse.context(),
+                IPostmanContext::setResponseName,
+                IPostmanContext::removeResponseName
+        );
     }
 
     // @AddPostmanFolder handling
@@ -217,42 +142,12 @@ public class PostmanCoreAspect {
         String name = addPostmanFolder.value();
         log.debug("Adding folder: {}", name);
 
-        Set<String> contextsToGet;
-        if (addPostmanFolder.context().length > 0) {
-            contextsToGet = Set.of(addPostmanFolder.context());
-        } else {
-            contextsToGet = contextHolder.getHolder().keySet();
-        }
-
-        contextsToGet.forEach(context -> {
-            PostmanContextContainer contextContainer = contextHolder.getContext(context);
-            if (contextContainer == null) {
-                return;
-            }
-            if (contextContainer.getClientContext().get() != null) {
-                contextContainer.getClientContext().get().addFolder(name);
-            }
-            if (contextContainer.getServerContext().get() != null) {
-                contextContainer.getServerContext().get().addFolder(name);
-            }
-        });
-
-        try {
-            return joinPoint.proceed();
-        } finally {
-            contextsToGet.forEach(context -> {
-                PostmanContextContainer contextContainer = contextHolder.getContext(context);
-                if (contextContainer == null) {
-                    return;
-                }
-                if (contextContainer.getClientContext().get() != null) {
-                    contextContainer.getClientContext().get().removeFolder();
-                }
-                if (contextContainer.getServerContext().get() != null) {
-                    contextContainer.getServerContext().get().removeFolder();
-                }
-            });
-        }
+        return handleGeneric(joinPoint,
+                name,
+                addPostmanFolder.context(),
+                IPostmanContext::addFolder,
+                IPostmanContext::removeFolder
+        );
     }
 
     // Handle class-level annotation

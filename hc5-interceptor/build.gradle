@@ -26,6 +26,7 @@ artifacts {
 
 dependencies {
     api project(':postman4j-models')
+    api project(':postman4j-core')
     implementation libs.jackson.core
     implementation libs.httpclient5
     implementation libs.aspectjrt

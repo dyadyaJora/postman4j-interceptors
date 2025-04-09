@@ -1,5 +1,7 @@
 package dev.jora.postman4j;
 
+import dev.jora.postman4j.core.IPostmanContext;
+import dev.jora.postman4j.core.PostmanContextHolder;
 import dev.jora.postman4j.models.FormParameter;
 import dev.jora.postman4j.models.HeaderElement;
 import dev.jora.postman4j.models.PostmanCollection;
@@ -32,15 +34,7 @@ import java.util.stream.Stream;
  * @author dyadyaJora on 11.12.2024
  */
 public class PostmanRequestExecutor extends HttpRequestExecutor implements BasePostmanInterceptor<ClassicHttpRequest, ClassicHttpResponse> {
-
-    private final PostmanSettings settings;
-    private final AtomicInteger counter = new AtomicInteger(0);
-    private static final ThreadLocal<String> currentCollectionNameHolder = new ThreadLocal<>();
-    private static final ThreadLocal<List<String>> currentFoldersHolder = new ThreadLocal<>();
-    private static final ThreadLocal<String> currentFolderPathHolder = new ThreadLocal<>();
-
-    private static final ThreadLocal<String> currentRequestNameHolder = new ThreadLocal<>();
-    private static final ThreadLocal<String> currentResponseNameHolder = new ThreadLocal<>();
+    private IPostmanContext context;
 
     @Getter
     private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
@@ -51,57 +45,11 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
     }
 
     public PostmanRequestExecutor(PostmanSettings settings) {
-        this.settings = settings;
+        this(null, settings);
     }
 
-    public static void setCollectionName(String prefix) {
-        currentCollectionNameHolder.set(prefix);
-    }
-
-    public static void removeCollectionName() {
-        currentCollectionNameHolder.remove();
-    }
-
-    public static void setRequestName(String prefix) {
-        currentRequestNameHolder.set(prefix);
-    }
-
-    public static void removeRequestName() {
-        currentRequestNameHolder.remove();
-    }
-
-    public static void setResponseName(String prefix) {
-        currentResponseNameHolder.set(prefix);
-    }
-
-    public static void removeResponseName() {
-        currentResponseNameHolder.remove();
-    }
-
-    public static void setFolderPath(String prefix) {
-        currentFolderPathHolder.set(prefix);
-    }
-
-    public static void removeFolderPath() {
-        currentFolderPathHolder.remove();
-    }
-
-    public static void addFolder(String folder) {
-        List<String> folders = currentFoldersHolder.get();
-        if (folders == null) {
-            folders = new ArrayList<>();
-            currentFoldersHolder.set(folders);
-        }
-        folders.add(folder);
-    }
-
-    public static void removeFolder() {
-        List<String> folders = currentFoldersHolder.get();
-        if (folders != null) {
-            if (!folders.isEmpty()) {
-                folders.remove(folders.size() - 1);
-            }
-        }
+    public PostmanRequestExecutor(String contextId, PostmanSettings settings) {
+        this.context = PostmanContextHolder.getInstance().getClientContext(contextId, settings);
     }
 
     @Override
@@ -120,7 +68,7 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
 
     @Override
     public Optional<String> extractHeaderValue(ClassicHttpRequest request) {
-        return Stream.of(request.getHeaders(this.settings.getHeaderName()))
+        return Stream.of(request.getHeaders(this.context.getSettings().getHeaderName()))
                 .filter(Objects::nonNull)
                 .findFirst().map(Header::getValue);
     }
@@ -132,15 +80,15 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
 
     @Override
     public String extractCollectionName(ClassicHttpRequest request) {
-        return currentCollectionNameHolder.get() != null ? currentCollectionNameHolder.get() : this.settings.getBaseCollectionName();
+        return this.context.getCollectionName() != null ? this.context.getCollectionName() : this.context.getSettings().getBaseCollectionName();
     }
 
     @Override
     public List<String> extractFolderNames(ClassicHttpRequest request) {
-        if (currentFolderPathHolder.get() != null) {
-            return List.of(currentFolderPathHolder.get().split("/"));
+        if (this.context.getFolderPath() != null) {
+            return List.of(this.context.getFolderPath().split("/"));
         }
-        return currentFoldersHolder.get();
+        return this.context.getFolders();
     }
 
     @Override
@@ -239,21 +187,21 @@ public class PostmanRequestExecutor extends HttpRequestExecutor implements BaseP
 
     @Override
     public String extractResponseName(ClassicHttpRequest request, ClassicHttpResponse response) {
-        return currentResponseNameHolder.get() == null ? response.getCode() + " " + response.getReasonPhrase() : currentResponseNameHolder.get();
+        return this.context.getResponseName() == null ? response.getCode() + " " + response.getReasonPhrase() : this.context.getResponseName();
     }
 
     @Override
     public AtomicInteger getCounter() {
-        return this.counter;
+        return this.context.getCounter();
     }
 
     @Override
     public PostmanSettings getSettings() {
-        return this.settings;
+        return this.context.getSettings();
     }
 
     @Override
     public String extractRequestName(ClassicHttpRequest request) {
-        return currentRequestNameHolder.get();
+        return this.context.getRequestName();
     }
 }

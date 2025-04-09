@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     api project(':postman4j-models')
+    api project(':postman4j-core')
     implementation libs.restAssured
     implementation libs.jackson.databind
     implementation libs.jackson.core

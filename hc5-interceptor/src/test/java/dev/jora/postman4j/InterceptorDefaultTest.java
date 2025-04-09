@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import static dev.jora.postman4j.TestUtils.MULTIPART_RESPONSE_BODY_EXAMPLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,7 +73,7 @@ public class InterceptorDefaultTest {
     }
 
     private void executeAndVerifyRequest(String method, String url, String requestBody, int expectedStatusCode, String expectedStatus, String expectedName, String expectedResponseBody) throws IOException {
-        PostmanRequestExecutor interceptor = new PostmanRequestExecutor();
+        PostmanRequestExecutor interceptor = new PostmanRequestExecutor(UUID.randomUUID().toString(), PostmanSettings.builder().build());
         try (CloseableHttpClient httpClient = HttpClients.custom()
                 .disableContentCompression()
                 .setRequestExecutor(interceptor)

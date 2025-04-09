@@ -119,7 +119,7 @@ Example of actuator endpoint output
 | requestResponseMode      | `REQUEST_ONLY` \| `REQUEST_AND_RESPONSE`         | The mode of the request-response logging (default: `REQUEST_AND_RESPONSE`)              |
 | enableRequestBody        | `boolean`                                        | Whether to log the request body (default: `true`)                                       |
 | enableResponseBody       | `boolean`                                        | Whether to log the response body (default: `true`)                                      |
-| logWhenChanged           | `boolean`                                        | Enable logging of current collection to stdout when changed (default: `true`)           |
+| logWhenChanged           | `boolean`                                        | Enable logging of current collection to stdout when changed (default: `false`)          |
 | itemNamingStrategy       | `COUNTER`, `UUID`, `FROM_HEADER`                 | The naming strategy for the items (default: `COUNTER`)                                  |
 | outputLocation           | `CONSOLE`, `FILE`, `BOTH`                        | **(not supported yet)** The output location for the collection (`CONSOLE`)              |
 | selectedStatuses         | `List<Integer>`                                  | The selected statuses to save when filtering responses (default: `empty list`)          |

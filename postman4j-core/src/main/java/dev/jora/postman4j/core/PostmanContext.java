@@ -70,7 +70,7 @@ public class PostmanContext implements IPostmanContext {
 
     @Override
     public void removeFolderPath() {
-        this.currentCollectionNameHolder.remove();
+        this.currentFolderPathHolder.remove();
     }
 
     @Override

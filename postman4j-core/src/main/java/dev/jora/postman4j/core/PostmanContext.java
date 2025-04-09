@@ -2,6 +2,8 @@ package dev.jora.postman4j.core;
 
 import dev.jora.postman4j.utils.PostmanSettings;
 import lombok.Getter;
+import dev.jora.postman4j.models.PostmanCollection;
+import java.util.concurrent.ConcurrentHashMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ public class PostmanContext implements IPostmanContext {
 
     private final ThreadLocal<String> currentRequestNameHolder = new ThreadLocal<>();
     private final ThreadLocal<String> currentResponseNameHolder = new ThreadLocal<>();
+
+    private final ConcurrentHashMap<String, PostmanCollection> data = new ConcurrentHashMap<>();
 
     public PostmanContext() {
         this(PostmanSettings.builder().build());
@@ -122,5 +126,10 @@ public class PostmanContext implements IPostmanContext {
                 folders.remove(folders.size() - 1);
             }
         }
+    }
+
+    @Override
+    public ConcurrentHashMap<String, PostmanCollection> getData() {
+        return this.data;
     }
 }

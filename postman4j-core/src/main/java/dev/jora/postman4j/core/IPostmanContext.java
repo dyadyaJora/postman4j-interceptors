@@ -1,8 +1,10 @@
 package dev.jora.postman4j.core;
 
 import dev.jora.postman4j.utils.PostmanSettings;
+import dev.jora.postman4j.models.PostmanCollection;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -117,4 +119,10 @@ public interface IPostmanContext {
      * Removes the current folder from the context
      */
     void removeFolder();
+
+    /**
+     * Returns the Postman collection data map for this context
+     * @return The Postman collection data map
+     */
+    ConcurrentHashMap<String, PostmanCollection> getData();
 }

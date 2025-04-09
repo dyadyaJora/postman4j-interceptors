@@ -173,6 +173,11 @@ public class PostmanMiddlewareFilter extends OncePerRequestFilter implements Bas
     }
 
     @Override
+    public boolean isFormDataUrlEncoded(ContentCachingRequestWrapper request) {
+        return request.getContentType() != null && request.getContentType().contains("application/x-www-form-urlencoded");
+    }
+
+    @Override
     public String extractRequestBody(ContentCachingRequestWrapper request) {
         return request.getContentAsString();
     }

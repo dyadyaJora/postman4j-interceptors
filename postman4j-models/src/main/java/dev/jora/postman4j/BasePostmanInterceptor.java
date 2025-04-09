@@ -57,7 +57,7 @@ public interface BasePostmanInterceptor<Req, Resp> {
 
     boolean hasRequestBody(Req request);
     boolean hasRequestFormData(Req request);
-
+    boolean isFormDataUrlEncoded(Req request);
     String extractRequestBody(Req request);
     List<FormParameter> extractRequestFormData(Req request);
 
@@ -192,7 +192,11 @@ public interface BasePostmanInterceptor<Req, Resp> {
             }
             if (hasRequestFormData(request)) {
                 body.setDisabled(false);
-                body.setMode(Mode.FORMDATA);
+                if (isFormDataUrlEncoded(request)) {
+                    body.setMode(Mode.FORMDATA);
+                } else {
+                    body.setMode(Mode.URLENCODED);
+                }
                 body.setFormdata(this.extractRequestFormData(request));
             }
         }

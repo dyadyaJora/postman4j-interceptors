@@ -120,6 +120,11 @@ public class PostmanRestassuredFilter implements Filter, BasePostmanInterceptor<
     }
 
     @Override
+    public boolean isFormDataUrlEncoded(FilterableRequestSpecification request) {
+        return request.getContentType() != null && request.getContentType().contains("application/x-www-form-urlencoded");
+    }
+
+    @Override
     public String extractRequestBody(FilterableRequestSpecification request) {
         return new Prettifier().getPrettifiedBodyIfPossible(request);
     }

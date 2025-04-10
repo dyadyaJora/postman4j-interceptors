@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 @Data
 @Builder
@@ -66,6 +68,13 @@ public class PostmanSettings {
      */
     @lombok.Builder.Default
     private final ItemNamingStrategy itemNamingStrategy = ItemNamingStrategy.COUNTER;
+
+    /**
+     * The custom item name generator function
+     * Use request URI as input parameter
+     * @return the request item name
+     */
+    private UnaryOperator<String> itemNameGenerator = null;
 
     /**
      * The output location for the collection

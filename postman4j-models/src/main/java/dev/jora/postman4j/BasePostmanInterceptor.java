@@ -79,6 +79,11 @@ public interface BasePostmanInterceptor<Req, Resp> {
         if (this.extractRequestName(request) != null) {
             return this.extractRequestName(request);
         }
+
+        if (this.getSettings().getItemNameGenerator() != null) {
+            return this.getSettings().getItemNameGenerator().apply(this.extractRequestUrl(request));
+        }
+
         switch (this.getSettings().getItemNamingStrategy()) {
             case COUNTER:
                 return "Request " + this.getCounter().incrementAndGet();

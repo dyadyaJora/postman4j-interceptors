@@ -15,6 +15,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -85,5 +87,43 @@ public class PostmanRestAssuredFilterTest {
         System.out.println(ConverterUtils.toJsonString(collection));
         assertEquals(PostmanSettings.DEFAULT_COLLECTION_NAME, collection.getInfo().getName());
         assertEquals(1, collection.getItem().size());
+    }
+
+    @Test
+    public void testSuccessGetWithCustomItemNameGenerator() throws JsonProcessingException {
+        PostmanSettings settings = PostmanSettings.builder()
+                .itemNameGenerator(uri -> "Request for " + getRequestPath(uri))
+                .build();
+
+        PostmanRestassuredFilter filter = new PostmanRestassuredFilter(UUID.randomUUID().toString(), settings);
+        RestAssured.requestSpecification = new RequestSpecBuilder()
+                .setBaseUri("http://" + WIREMOCK_HOST)
+                .setPort(WIREMOCK_PORT)
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
+                .addFilter(filter).build();
+
+        Response response = RestAssured.given()
+                .get("/success");
+
+        assertEquals(200, response.getStatusCode());
+        JsonPath jsonPath = response.getBody().jsonPath();
+        assertNotNull(jsonPath);
+
+        PostmanCollection collection = filter.getData().get(PostmanSettings.DEFAULT_COLLECTION_NAME);
+        assertNotNull(collection);
+        System.out.println(ConverterUtils.toJsonString(collection));
+        assertEquals(PostmanSettings.DEFAULT_COLLECTION_NAME, collection.getInfo().getName());
+        assertEquals(1, collection.getItem().size());
+        assertEquals("Request for /success", collection.getItem().get(0).getName());
+    }
+
+    public static String getRequestPath(String uriString) {
+        try {
+            URI uri = new URI(uriString);
+            return uri.getPath();
+        } catch (URISyntaxException e) {
+            return "unknown";
+        }
     }
 }

@@ -70,7 +70,7 @@ spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-start
 
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }
 
-commons-text = "org.apache.commons:commons-text:1.13.0"
+commons-text = "org.apache.commons:commons-text:1.13.1"
 
 spring-aop = { module = "org.springframework:spring-aop", version.ref = "spring" }
 

@@ -42,13 +42,13 @@ lombok = "org.projectlombok:lombok:1.18.36"
 
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
 
-httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.3.1"
+httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.5"
 
 aspectjrt = { module = "org.aspectj:aspectjrt", version.ref = "aspectj" }
 
 aspectjweaver = { module = "org.aspectj:aspectjweaver", version.ref = "aspectj" }
 
-commons-io = "commons-io:commons-io:2.18.0"
+commons-io = "commons-io:commons-io:2.19.0"
 
 commons-lang3 = "org.apache.commons:commons-lang3:3.17.0"
 

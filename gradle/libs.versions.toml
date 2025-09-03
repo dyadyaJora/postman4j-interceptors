@@ -88,4 +88,4 @@ jsonPath = { group = "io.rest-assured", name = "json-path", version.ref = "restA
 
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version = "5.11.0-M2" }
 
-testng = { group = "org.testng", name = "testng", version = "6.8.21" }
+testng = { group = "org.testng", name = "testng", version = "7.11.0" }
